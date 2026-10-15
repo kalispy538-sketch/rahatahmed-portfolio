@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahat Ahmed | Portfolio</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #080d18;
+            color: white;
+            line-height: 1.6;
+        }
+
+        header {
+            padding: 25px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+        }
+
+        header h2 {
+            color: #3b82f6;
+        }
+
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 70px 8%;
+        }
+
+        .hero p {
+            color: #60a5fa;
+            margin-bottom: 15px;
+        }
+
+        .hero h1 {
+            font-size: clamp(38px, 7vw, 68px);
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero h1 span {
+            color: #3b82f6;
+        }
+
+        .description {
+            color: #cbd5e1;
+            max-width: 600px;
+            margin-bottom: 28px;
+        }
+
+        .button {
+            display: inline-block;
+            width: fit-content;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 8px;
+        }
+
+        section {
+            padding: 55px 8%;
+        }
+
+        section h2 {
+            margin-bottom: 25px;
+            font-size: 30px;
+        }
+
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: #111c2e;
+            border: 1px solid #24334b;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .card h3 {
+            color: #60a5fa;
+            margin-bottom: 10px;
+        }
+
+        .card p, #about p {
+            color: #cbd5e1;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #94a3b8;
+            border-top: 1px solid #1e293b;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h2>RAHAT AHMED</h2>
+        <span>MY PORTFOLIO</span>
+    </header>
+
+    <main>
+        <div class="hero">
+            <p>AI • DATA • CREATIVE</p>
+
+            <h1>Hello, I'm<br>
+                <span>Rahat Ahmed.</span>
+            </h1>
+
+            <div class="description">
+                I am building my skills in AI Development,
+                Excel, Google Sheets, Data Management,
+                Graphic Design and Video Editing.
+            </div>
+
+            <a class="button" href="#projects">
+                Explore My Work →
+            </a>
+        </div>
+
+        <section id="about">
+            <h2>About Me</h2>
+            <p>
+                I am a motivated learner who enjoys technology,
+                creative work and continuously improving my skills.
+                This portfolio will showcase my projects and work samples.
+            </p>
+        </section>
+
+        <section id="projects">
+            <h2>My Skills & Projects</h2>
+
+            <div class="projects">
+                <div class="card">
+                    <h3>AI Development</h3>
+                    <p>AI projects and development work samples.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Excel & Google Sheets</h3>
+                    <p>Dashboards, spreadsheets and data cleaning.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Data Entry</h3>
+                    <p>Data entry and data management examples.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Graphic Design</h3>
+                    <p>Logos, banners, posters and visual designs.</p>
+                </div>
+
+                <div class="card">
+                    <h3>Video Editing</h3>
+                    <p>Video editing projects and creative samples.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        © 2026 Rahat Ahmed | Portfolio
+    </footer>
+
+</body>
+</html>
