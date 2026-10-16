@@ -137,5 +137,93 @@
       </div>
     </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const portfolioSupabase = window.supabase.createClient(
+    "https://inaazsmabgptpjckugwn.supabase.co",
+    "sb_publishable_bjV2neW1ydd_yluL3mr-Zg_Og2pm9hK"
+  );
+
+  async function loadUploadedProjects() {
+    const grid = document.getElementById("supabase-project-grid");
+
+    try {
+      const { data, error } = await portfolioSupabase
+        .from("projects")
+        .select("id, title, category, description, file_url, created_at")
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      if (!data || data.length === 0) {
+        grid.textContent = "No uploaded projects yet.";
+        return;
+      }
+
+      grid.replaceChildren();
+
+      data.forEach((project) => {
+        const card = document.createElement("article");
+        card.className = "project";
+
+        const art = document.createElement("div");
+        art.className = "project-art";
+
+        const body = document.createElement("div");
+        body.className = "project-body";
+
+        const tag = document.createElement("span");
+        tag.className = "tag";
+        tag.textContent = project.category || "Project";
+
+        const title = document.createElement("h3");
+        title.textContent = project.title || "Untitled Project";
+
+        const description = document.createElement("p");
+        description.textContent = project.description || "";
+
+        const link = document.createElement("a");
+        link.href = project.file_url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "View Project ↗";
+
+        const url = project.file_url || "";
+        const cleanUrl = url.split("?")[0].toLowerCase();
+
+        if (/\.(jpg|jpeg|png|webp|gif)$/.test(cleanUrl)) {
+          const img = document.createElement("img");
+          img.src = url;
+          img.alt = project.title || "Project image";
+          img.loading = "lazy";
+          img.style.width = "100%";
+          img.style.height = "180px";
+          img.style.objectFit = "contain";
+          img.style.background = "#0c1422";
+          art.replaceChildren(img);
+        } else if (/\.mp4$/.test(cleanUrl)) {
+          art.textContent = "🎬 Video Project";
+        } else if (/\.pdf$/.test(cleanUrl)) {
+          art.textContent = "📄 PDF Project";
+        } else {
+          art.textContent = "📁 Project";
+        }
+
+        body.append(tag, title, description, link);
+        card.append(art, body);
+        grid.append(card);
+      });
+
+    } catch (error) {
+      grid.textContent =
+        "Could not load projects. Please check Supabase permissions and connection.";
+      console.error("Portfolio project loading error:", error);
+    }
+  }
+
+  loadUploadedProjects();
+</script>
+
 </body>
 </html>
