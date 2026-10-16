@@ -1,153 +1,913 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Rahat Ahmed's portfolio in AI development, Excel, Google Sheets, data management, graphic design and video editing.">
+  <meta name="description" content="Rahat Ahmed's professional portfolio in AI development, Excel, Google Sheets, data management, graphic design and video editing.">
   <title>Rahat Ahmed | Portfolio</title>
+
   <style>
-    :root{--bg:#070b14;--panel:#101a2b;--panel2:#0c1422;--text:#f4f7ff;--muted:#aebbd0;--blue:#4d8dff;--cyan:#65d6ff;--line:#263650}
-    *{box-sizing:border-box;scroll-behavior:smooth}
-    body{margin:0;background:radial-gradient(ellipse at 75% 0%,#10234a 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;line-height:1.6}
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(1120px,92%);margin:auto}
-    header{position:sticky;top:0;z-index:10;background:rgba(7,11,20,.88);backdrop-filter:blur(12px);border-bottom:1px solid rgba(130,160,210,.15)}
-    nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0}
-    .logo{font-weight:850;letter-spacing:.4px;font-size:1.12rem}.logo span{color:var(--blue)}
-    .navlinks{display:flex;align-items:center;gap:22px;color:var(--muted);font-size:.93rem}
-    .navlinks a:hover{color:white}
-    .btn{display:inline-flex;justify-content:center;align-items:center;gap:8px;padding:12px 18px;border-radius:11px;background:linear-gradient(135deg,var(--blue),#3264ed);color:white;font-weight:750;border:1px solid #6aa1ff;box-shadow:0 8px 25px #245be52b;transition:.2s}
-    .btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
-    .btn.secondary{background:transparent;border:1px solid var(--line);box-shadow:none}
-    .hero{padding:92px 0 76px;display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:center;min-height:510px}
-    .eyebrow{display:inline-flex;gap:9px;align-items:center;border:1px solid #31518b;background:#102044;color:#b9d4ff;padding:7px 12px;border-radius:99px;font-size:.85rem}
-    .dot{width:8px;height:8px;background:#4be2a3;border-radius:50%;box-shadow:0 0 12px #4be2a3}
-    h1{font-size:clamp(2.7rem,6vw,5rem);line-height:1.04;letter-spacing:-2.4px;margin:20px 0}
-    h1 span{background:linear-gradient(90deg,#5b96ff,#67d9ff);color:transparent;background-clip:text}
-    .lead{color:var(--muted);font-size:1.08rem;max-width:650px;margin:0 0 26px}
-    .actions{display:flex;gap:12px;flex-wrap:wrap}
-    .hero-card{padding:24px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(145deg,#14223a,#0a1220);box-shadow:0 25px 70px #0005}
-    .orb{width:110px;height:110px;border-radius:30px;display:grid;place-items:center;font-size:2.6rem;font-weight:900;background:linear-gradient(135deg,#367bff,#5ed8ff);color:#07101d;margin-bottom:22px;box-shadow:0 12px 40px #377dff4d}
-    .hero-card h3{margin:0 0 6px;font-size:1.35rem}.hero-card p{margin:0;color:var(--muted)}
-    .mini-skills{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}.mini-skills span{font-size:.78rem;border:1px solid var(--line);border-radius:8px;padding:5px 9px;color:#cbd8ed}
-    section{padding:64px 0}
-    .section-head{margin-bottom:26px}.kicker{color:var(--cyan);font-size:.78rem;text-transform:uppercase;letter-spacing:2px;font-weight:800}
-    h2{font-size:clamp(1.8rem,3vw,2.5rem);line-height:1.2;margin:7px 0 10px;letter-spacing:-.7px}
-    .sub{color:var(--muted);margin:0;max-width:700px}
-    .about{display:grid;grid-template-columns:1fr 1fr;gap:22px}
-    .panel{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;padding:24px}
-    .panel p{color:var(--muted);margin-bottom:0}
-    .skills{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-    .skill{padding:20px;border:1px solid var(--line);border-radius:16px;background:var(--panel);transition:.2s}
-    .skill:hover,.project:hover{transform:translateY(-3px);border-color:#4776bd}
-    .skill .symbol{font-size:1.5rem}.skill h3{font-size:1.03rem;margin:10px 0 5px}.skill p{font-size:.9rem;color:var(--muted);margin:0}
-    .project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
-    .project{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:17px;transition:.2s;display:flex;flex-direction:column}
-    .project-art{height:145px;display:grid;place-items:center;font-size:2.6rem;background:radial-gradient(circle at 30% 20%,#28549a,#111c30 70%);border-bottom:1px solid var(--line)}
-    .project-body{padding:19px;display:flex;flex-direction:column;align-items:flex-start;flex:1}
-    .tag{font-size:.72rem;color:#b9d4ff;background:#172d51;border:1px solid #2a4e83;padding:3px 8px;border-radius:99px}
-    .project h3{font-size:1.08rem;margin:12px 0 6px}.project p{font-size:.9rem;color:var(--muted);margin:0 0 17px}
-    .project a{margin-top:auto;color:#82b1ff;font-weight:750;font-size:.9rem}
-    .note{font-size:.84rem;color:var(--muted);margin-top:16px}
-    .contact-box{display:flex;align-items:center;justify-content:space-between;gap:24px;padding:30px;background:linear-gradient(120deg,#13294d,#101a2b);border:1px solid #2e4f83;border-radius:22px}
-    .contact-box p{color:var(--muted);margin:8px 0 0}
-    footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);font-size:.88rem;text-align:center}
-    @media(max-width:780px){.hero{grid-template-columns:1fr;padding:65px 0 45px}.hero-card{max-width:500px}.about{grid-template-columns:1fr}.skills{grid-template-columns:repeat(2,1fr)}.project-grid{grid-template-columns:repeat(2,1fr)}.navlinks{gap:12px}.navlinks .hide-mobile{display:none}}
-    @media(max-width:520px){.navlinks{font-size:.82rem;gap:10px}.navlinks .contact-nav{display:none}.skills,.project-grid{grid-template-columns:1fr}.contact-box{align-items:flex-start;flex-direction:column}h1{letter-spacing:-1.5px}}
+    :root {
+      --bg: #070b14;
+      --panel: #101a2b;
+      --panel2: #0c1422;
+      --text: #f4f7ff;
+      --muted: #aebbd0;
+      --blue: #4d8dff;
+      --cyan: #65d6ff;
+      --line: #263650;
+    }
+
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: radial-gradient(ellipse at 75% 0%, #10234a 0, transparent 35%), var(--bg);
+      color: var(--text);
+      font-family: Inter, "Segoe UI", Arial, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(1120px, 92%);
+      margin: auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7, 11, 20, .92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(130, 160, 210, .15);
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 16px 0;
+    }
+
+    .logo {
+      font-weight: 850;
+      letter-spacing: .4px;
+      font-size: 1.12rem;
+    }
+
+    .logo span {
+      color: var(--blue);
+    }
+
+    .navlinks {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      color: var(--muted);
+      font-size: .93rem;
+    }
+
+    .navlinks a:hover {
+      color: white;
+    }
+
+    .btn {
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, var(--blue), #3264ed);
+      color: white;
+      font-weight: 750;
+      border: 1px solid #6aa1ff;
+      cursor: pointer;
+    }
+
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid var(--line);
+    }
+
+    section {
+      padding: 64px 0;
+    }
+
+    .hero {
+      padding: 92px 0 76px;
+      display: grid;
+      grid-template-columns: 1.35fr .65fr;
+      gap: 40px;
+      align-items: center;
+      min-height: 510px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      gap: 9px;
+      align-items: center;
+      border: 1px solid #31518b;
+      background: #102044;
+      color: #b9d4ff;
+      padding: 7px 12px;
+      border-radius: 99px;
+      font-size: .85rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background: #4be2a3;
+      border-radius: 50%;
+    }
+
+    h1 {
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 1.04;
+      letter-spacing: -2.4px;
+      margin: 20px 0;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, #5b96ff, #67d9ff);
+      color: transparent;
+      background-clip: text;
+    }
+
+    .lead {
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 650px;
+      margin-bottom: 26px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .hero-card {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(145deg, #14223a, #0a1220);
+      box-shadow: 0 25px 70px #0005;
+    }
+
+    .orb {
+      width: 110px;
+      height: 110px;
+      border-radius: 30px;
+      display: grid;
+      place-items: center;
+      font-size: 2.6rem;
+      font-weight: 900;
+      background: linear-gradient(135deg, #367bff, #5ed8ff);
+      color: #07101d;
+      margin-bottom: 22px;
+    }
+
+    .hero-card h3 {
+      margin: 0 0 6px;
+      font-size: 1.35rem;
+    }
+
+    .hero-card p,
+    .panel p {
+      color: var(--muted);
+    }
+
+    .mini-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .mini-skills span {
+      font-size: .78rem;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 5px 9px;
+      color: #cbd8ed;
+    }
+
+    .section-head {
+      margin-bottom: 26px;
+    }
+
+    .kicker {
+      color: var(--cyan);
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 800;
+    }
+
+    h2 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.2;
+      margin: 7px 0 10px;
+      letter-spacing: -.7px;
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: 0;
+      max-width: 700px;
+    }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .panel {
+      background: linear-gradient(145deg, var(--panel), var(--panel2));
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+    }
+
+    /* Clickable skill categories */
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+    }
+
+    .skill {
+      width: 100%;
+      text-align: left;
+      font: inherit;
+      color: var(--text);
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: var(--panel);
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .skill:hover,
+    .skill.active {
+      transform: translateY(-3px);
+      border-color: var(--blue);
+      background: #142440;
+    }
+
+    .skill .symbol {
+      font-size: 1.5rem;
+    }
+
+    .skill h3 {
+      font-size: 1.03rem;
+      margin: 10px 0 5px;
+    }
+
+    .skill p {
+      font-size: .9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Projects */
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+    }
+
+    .project {
+      overflow: hidden;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      transition: .2s;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .project:hover {
+      transform: translateY(-3px);
+      border-color: #4776bd;
+    }
+
+    .project-art {
+      height: 180px;
+      display: grid;
+      place-items: center;
+      font-size: 2.6rem;
+      background: radial-gradient(circle at 30% 20%, #28549a, #111c30 70%);
+      border-bottom: 1px solid var(--line);
+      overflow: hidden;
+    }
+
+    .project-art img {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      background: #0c1422;
+    }
+
+    .project-art video {
+      width: 100%;
+      height: 180px;
+      object-fit: contain;
+      background: #0c1422;
+    }
+
+    .project-body {
+      padding: 19px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      flex: 1;
+    }
+
+    .tag {
+      font-size: .72rem;
+      color: #b9d4ff;
+      background: #172d51;
+      border: 1px solid #2a4e83;
+      padding: 3px 8px;
+      border-radius: 99px;
+    }
+
+    .project h3 {
+      font-size: 1.08rem;
+      margin: 12px 0 6px;
+    }
+
+    .project p {
+      font-size: .9rem;
+      color: var(--muted);
+      margin: 0 0 17px;
+      overflow-wrap: anywhere;
+    }
+
+    .project a {
+      margin-top: auto;
+      color: #82b1ff;
+      font-weight: 750;
+      font-size: .9rem;
+    }
+
+    .project a:hover {
+      color: var(--cyan);
+    }
+
+    .filter-info {
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 0 0 18px;
+    }
+
+    .note {
+      font-size: .84rem;
+      color: var(--muted);
+      margin-top: 16px;
+    }
+
+    .contact-box {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 30px;
+      background: linear-gradient(120deg, #13294d, #101a2b);
+      border: 1px solid #2e4f83;
+      border-radius: 22px;
+    }
+
+    .contact-box p {
+      color: var(--muted);
+      margin: 8px 0 0;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 25px 0;
+      color: var(--muted);
+      font-size: .88rem;
+      text-align: center;
+    }
+
+    @media(max-width: 780px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 65px 0 45px;
+      }
+
+      .about {
+        grid-template-columns: 1fr;
+      }
+
+      .skills,
+      .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .navlinks {
+        gap: 12px;
+      }
+
+      .navlinks .hide-mobile {
+        display: none;
+      }
+    }
+
+    @media(max-width: 520px) {
+      .navlinks {
+        font-size: .78rem;
+        gap: 8px;
+      }
+
+      .navlinks .contact-nav {
+        display: none;
+      }
+
+      .skills,
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .contact-box {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      h1 {
+        letter-spacing: -1.5px;
+      }
+
+      nav {
+        gap: 8px;
+      }
+
+      nav > .btn {
+        padding: 9px 10px;
+        font-size: .82rem;
+      }
+    }
   </style>
 </head>
+
 <body>
+
 <header>
   <div class="wrap">
     <nav aria-label="Main navigation">
       <a class="logo" href="#home">RAHAT<span>.</span></a>
+
       <div class="navlinks">
-        <a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
         <a class="contact-nav" href="#contact">Contact</a>
       </div>
-      <a class="btn" href="mailto:rahatedahmed@gmail.com">Hire Me ↗</a>
+
+      <a class="btn" href="mailto:rahatahmed@gmail.com">Hire Me ↗</a>
     </nav>
   </div>
 </header>
+
 <main>
-  <div class="wrap">
-    <section class="hero" id="home">
-      <div>
-        <div class="eyebrow"><span class="dot"></span> Open to opportunities · Always learning</div>
-        <h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
-        <p class="lead">I’m developing practical skills in AI development, Excel, Google Sheets, data management, graphic design and video editing. I enjoy turning ideas into useful, polished work.</p>
-        <div class="actions"><a class="btn" href="#projects">Explore My Projects →</a><a class="btn secondary" href="#contact">Contact Me</a></div>
-      </div>
-      <aside class="hero-card">
-        <div class="orb">RA</div>
-        <h3>Creative mind. Practical skills.</h3>
-        <p>Technology, data and design—brought together in one portfolio.</p>
-        <div class="mini-skills"><span>AI Development</span><span>Excel</span><span>Google Sheets</span><span>Design</span><span>Video</span></div>
-      </aside>
-    </section>
-    <section id="about">
-      <div class="section-head"><div class="kicker">A little about me</div><h2>Learning, building, improving.</h2><p class="sub">I’m a motivated learner who enjoys technology, creative work and continuously improving my skills. This portfolio is where I’ll share selected work and practical projects.</p></div>
-      <div class="about">
-        <div class="panel"><h3>My approach</h3><p>I focus on practical learning, clear presentation and making each project better than the last.</p></div>
-        <div class="panel"><h3>What I’m working toward</h3><p>Building a strong body of work across data, automation, digital design and creative media.</p></div>
-      </div>
-    </section>
-    <section id="skills">
-      <div class="section-head"><div class="kicker">What I do</div><h2>Skills & services</h2><p class="sub">A growing mix of technical, office and creative skills.</p></div>
-      <div class="skills">
-        <article class="skill"><div class="symbol">🤖</div><h3>AI Development</h3><p>Python experiments, AI tools and automation projects.</p></article>
-        <article class="skill"><div class="symbol">📊</div><h3>Excel & Google Sheets</h3><p>Spreadsheets, dashboards, formulas and data cleaning.</p></article>
-        <article class="skill"><div class="symbol">🗂️</div><h3>Data Entry & Management</h3><p>Organized records, accurate entry and clean datasets.</p></article>
-        <article class="skill"><div class="symbol">🎨</div><h3>Graphic Design</h3><p>Logos, banners, posters and visual content.</p></article>
-        <article class="skill"><div class="symbol">🎬</div><h3>Video Editing</h3><p>Editing and preparing engaging video content.</p></article>
-        <article class="skill"><div class="symbol">📝</div><h3>Office Productivity</h3><p>MS Word, PowerPoint and professional documents.</p></article>
-      </div>
-    </section>
-    <section id="projects">
-      <div class="section-head"><div class="kicker">Selected work</div><h2>Featured projects</h2><p class="sub">Replace these sample cards with links to your real projects as you publish them.</p></div>
-      <div class="project-grid">
-        <article class="project"><div class="project-art">📈</div><div class="project-body"><span class="tag">Excel</span><h3>Sales Dashboard</h3><p>A dashboard project for tracking sales performance and comparing results.</p><a href="mailto:rahatedahmed@gmail.com?subject=Sales%20Dashboard%20Project">Request project link ↗</a></div></article>
-        <article class="project"><div class="project-art">🧹</div><div class="project-body"><span class="tag">Data Cleaning</span><h3>Messy Data Cleanup</h3><p>Practice project focused on improving consistency and organizing records.</p><a href="mailto:rahatedahmed@gmail.com?subject=Data%20Cleaning%20Project">Request project link ↗</a></div></article>
-        <article class="project"><div class="project-art">🤖</div><div class="project-body"><span class="tag">Python · AI</span><h3>Jarvis AI Assistant</h3><p>A personal learning project exploring a Python-based assistant.</p><a href="mailto:rahatedahmed@gmail.com?subject=Jarvis%20AI%20Project">Request project link ↗</a></div></article>
-        <article class="project"><div class="project-art">🖼️</div><div class="project-body"><span class="tag">Graphic Design</span><h3>Brand & Poster Design</h3><p>Visual concepts for logos, banners and promotional designs.</p><a href="mailto:rahatedahmed@gmail.com?subject=Graphic%20Design%20Portfolio">View design samples ↗</a></div></article>
-        <article class="project"><div class="project-art">📋</div><div class="project-body"><span class="tag">Google Sheets</span><h3>Data Management Sheet</h3><p>A structured spreadsheet for organizing and reviewing information.</p><a href="mailto:rahatedahmed@gmail.com?subject=Google%20Sheets%20Project">Request project link ↗</a></div></article>
-        <article class="project"><div class="project-art">🎞️</div><div class="project-body"><span class="tag">Video Editing</span><h3>Video Editing Sample</h3><p>A place to feature a published video or a short editing reel.</p><a href="mailto:rahatedahmed@gmail.com?subject=Video%20Editing%20Samples">View video samples ↗</a></div></article>
-      </div>
-      <p class="note">Note: These are starter/sample descriptions, not proof that the projects are published. Replace the links with your actual files or public project links before using this as a job portfolio.</p>
-    </section>
-    <section id="contact">
-      <div class="contact-box">
-        <div><div class="kicker">Let’s connect</div><h2>Have a project in mind?</h2><p>Contact me about opportunities, collaborations or my work samples.</p></div>
-        <a class="btn" href="mailto:rahatedahmed@gmail.com?subject=Portfolio%20Inquiry">Email Me ✉</a>
-      </div>
-    </section>
-  </div>
-</main>
-<footer><div class="wrap">© <span id="year">2026</span> Rahat Ahmed · Portfolio · Built with HTML & CSS</div></footer>
-  
-    <section id="uploaded-projects">
-      <div class="section-head">
-        <div class="kicker">My Latest Work</div>
-        <h2>Uploaded Projects</h2>
-        <p class="sub">Projects from my portfolio admin page.</p>
+<div class="wrap">
+
+  <!-- HOME -->
+
+  <section class="hero" id="home">
+    <div>
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Open to opportunities · Always learning
       </div>
 
-      <div class="project-grid" id="supabase-project-grid">
-        <p class="sub">Loading projects...</p>
+      <h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
+
+      <p class="lead">
+        I’m developing practical skills in AI development, Excel,
+        Google Sheets, data management, graphic design and video editing.
+        I enjoy turning ideas into useful, polished work.
+      </p>
+
+      <div class="actions">
+        <a class="btn" href="#projects">Explore My Projects →</a>
+        <a class="btn secondary" href="#contact">Contact Me</a>
       </div>
-    </section>
+    </div>
+
+    <aside class="hero-card">
+      <div class="orb">RA</div>
+      <h3>Creative mind. Practical skills.</h3>
+      <p>Technology, data and design—brought together in one portfolio.</p>
+
+      <div class="mini-skills">
+        <span>AI Development</span>
+        <span>Excel</span>
+        <span>Google Sheets</span>
+        <span>Design</span>
+        <span>Video</span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- ABOUT -->
+
+  <section id="about">
+    <div class="section-head">
+      <div class="kicker">A little about me</div>
+      <h2>Learning, building, improving.</h2>
+      <p class="sub">
+        I’m a motivated learner who enjoys technology, creative work
+        and continuously improving my skills. This portfolio is where
+        I share selected work and practical projects.
+      </p>
+    </div>
+
+    <div class="about">
+      <div class="panel">
+        <h3>My approach</h3>
+        <p>
+          I focus on practical learning, clear presentation and making
+          each project better than the last.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h3>What I’m working toward</h3>
+        <p>
+          Building a strong body of work across data, automation,
+          digital design and creative media.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLICKABLE CATEGORIES -->
+
+  <section id="skills">
+    <div class="section-head">
+      <div class="kicker">Explore my work</div>
+      <h2>Skills & services</h2>
+      <p class="sub">
+        Click any category to see its projects below.
+      </p>
+    </div>
+
+    <div class="skills">
+
+      <button class="skill" type="button" data-category="AI Development">
+        <div class="symbol">🤖</div>
+        <h3>AI Development</h3>
+        <p>Python experiments, AI tools and automation projects.</p>
+      </button>
+
+      <button class="skill" type="button" data-category="Excel & Google Sheets">
+        <div class="symbol">📊</div>
+        <h3>Excel & Google Sheets</h3>
+        <p>Spreadsheets, dashboards, formulas and data cleaning.</p>
+      </button>
+
+      <button class="skill" type="button" data-category="Data Entry & Management">
+        <div class="symbol">🗂️</div>
+        <h3>Data Entry & Management</h3>
+        <p>Organized records, accurate entry and clean datasets.</p>
+      </button>
+
+      <button class="skill" type="button" data-category="Graphic Design">
+        <div class="symbol">🎨</div>
+        <h3>Graphic Design</h3>
+        <p>Logos, banners, posters and visual content.</p>
+      </button>
+
+      <button class="skill" type="button" data-category="Video Editing">
+        <div class="symbol">🎬</div>
+        <h3>Video Editing</h3>
+        <p>Editing and preparing engaging video content.</p>
+      </button>
+
+      <button class="skill" type="button" data-category="Office Productivity">
+        <div class="symbol">📝</div>
+        <h3>Office Productivity</h3>
+        <p>MS Word, PowerPoint and professional documents.</p>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- FEATURED PROJECTS: STATIC AND SUPABASE PROJECTS TOGETHER -->
+
+  <section id="projects">
+    <div class="section-head">
+      <div class="kicker">Selected work</div>
+      <h2 id="projects-title">Featured Projects</h2>
+      <p class="sub">
+        Select a category above to explore relevant work.
+        New projects uploaded through the admin page appear here.
+      </p>
+    </div>
+
+    <p class="filter-info" id="filter-info">
+      Showing projects from all categories.
+    </p>
+
+    <div class="project-grid" id="project-grid">
+
+      <!-- Example project cards -->
+
+      <article class="project" data-project-category="Excel & Google Sheets">
+        <div class="project-art">📈</div>
+        <div class="project-body">
+          <span class="tag">Excel</span>
+          <h3>Sales Dashboard</h3>
+          <p>A dashboard project for tracking sales performance and comparing results.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Sales%20Dashboard%20Project">
+            Request project link ↗
+          </a>
+        </div>
+      </article>
+
+      <article class="project" data-project-category="Data Entry & Management">
+        <div class="project-art">🧹</div>
+        <div class="project-body">
+          <span class="tag">Data Cleaning</span>
+          <h3>Messy Data Cleanup</h3>
+          <p>A practice project focused on improving consistency and organizing records.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Data%20Cleaning%20Project">
+            Request project link ↗
+          </a>
+        </div>
+      </article>
+
+      <article class="project" data-project-category="AI Development">
+        <div class="project-art">🤖</div>
+        <div class="project-body">
+          <span class="tag">Python · AI</span>
+          <h3>Jarvis AI Assistant</h3>
+          <p>A personal learning project exploring a Python-based assistant.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Jarvis%20AI%20Project">
+            Request project link ↗
+          </a>
+        </div>
+      </article>
+
+      <article class="project" data-project-category="Graphic Design">
+        <div class="project-art">🎨</div>
+        <div class="project-body">
+          <span class="tag">Graphic Design</span>
+          <h3>Brand & Poster Design</h3>
+          <p>Visual concepts for logos, banners and promotional designs.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Graphic%20Design%20Portfolio">
+            View design samples ↗
+          </a>
+        </div>
+      </article>
+
+      <article class="project" data-project-category="Excel & Google Sheets">
+        <div class="project-art">📋</div>
+        <div class="project-body">
+          <span class="tag">Google Sheets</span>
+          <h3>Data Management Sheet</h3>
+          <p>A structured spreadsheet for organizing and reviewing information.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Google%20Sheets%20Project">
+            Request project link ↗
+          </a>
+        </div>
+      </article>
+
+      <article class="project" data-project-category="Video Editing">
+        <div class="project-art">🎞️</div>
+        <div class="project-body">
+          <span class="tag">Video Editing</span>
+          <h3>Video Editing Sample</h3>
+          <p>A place to feature a published video or a short editing reel.</p>
+          <a href="mailto:rahatahmed@gmail.com?subject=Video%20Editing%20Samples">
+            View video samples ↗
+          </a>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="note" id="project-status" aria-live="polite">
+      Loading uploaded projects...
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+
+  <section id="contact">
+    <div class="contact-box">
+      <div>
+        <div class="kicker">Let’s connect</div>
+        <h2>Have a project in mind?</h2>
+        <p>Contact me about opportunities, collaborations or my work samples.</p>
+      </div>
+
+      <a class="btn" href="mailto:rahatahmed@gmail.com?subject=Portfolio%20Inquiry">
+        Email Me ✉
+      </a>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    © <span id="year">2026</span> Rahat Ahmed · Portfolio · Built with HTML, CSS & JavaScript
+  </div>
+</footer>
+
+<!-- SUPABASE: LOAD PROJECTS UPLOADED THROUGH ADMIN PAGE -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
   const portfolioSupabase = window.supabase.createClient(
     "https://inaazsmabgptpjckugwn.supabase.co",
-    "sb_publishable_bjV2neW1ydd_yluL3mr-Zg_Og2pm9hK"
+    "sb_publishable_bjV2neW1ydd_yluL3mr-Zg_Og2pm9h"
   );
 
-  async function loadUploadedProjects() {
-    const grid = document.getElementById("supabase-project-grid");
+  const projectGrid = document.getElementById("project-grid");
+  const projectStatus = document.getElementById("project-status");
+  const filterInfo = document.getElementById("filter-info");
+  const categoryButtons = document.querySelectorAll(".skill");
 
+  let selectedCategory = "All";
+  let uploadedProjects = [];
+
+  function normalizeCategory(value) {
+    const category = (value || "").toLowerCase().trim();
+
+    if (
+      category.includes("ai") ||
+      category.includes("python") ||
+      category.includes("jarvis")
+    ) {
+      return "AI Development";
+    }
+
+    if (
+      category.includes("excel") ||
+      category.includes("spreadsheet") ||
+      category.includes("google sheets") ||
+      category.includes("dashboard")
+    ) {
+      return "Excel & Google Sheets";
+    }
+
+    if (
+      category.includes("data entry") ||
+      category.includes("data management") ||
+      category.includes("data cleaning")
+    ) {
+      return "Data Entry & Management";
+    }
+
+    if (category.includes("graphic") || category.includes("design")) {
+      return "Graphic Design";
+    }
+
+    if (category.includes("video") || category.includes("editing")) {
+      return "Video Editing";
+    }
+
+    if (
+      category.includes("office") ||
+      category.includes("word") ||
+      category.includes("powerpoint")
+    ) {
+      return "Office Productivity";
+    }
+
+    return value || "Other";
+  }
+
+  function createUploadedProject(project) {
+    const card = document.createElement("article");
+    card.className = "project";
+    card.dataset.projectCategory = normalizeCategory(project.category);
+    card.dataset.uploadedProject = "true";
+
+    const art = document.createElement("div");
+    art.className = "project-art";
+
+    const body = document.createElement("div");
+    body.className = "project-body";
+
+    const tag = document.createElement("span");
+    tag.className = "tag";
+    tag.textContent = project.category || "Project";
+
+    const title = document.createElement("h3");
+    title.textContent = project.title || "Untitled Project";
+
+    const description = document.createElement("p");
+    description.textContent = project.description || "Portfolio project.";
+
+    const link = document.createElement("a");
+    link.href = project.file_url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.textContent = "View Project ↗";
+
+    const url = project.file_url || "";
+    const cleanUrl = url.split("?")[0].toLowerCase();
+
+    if (/\.(jpg|jpeg|png|webp|gif)$/.test(cleanUrl)) {
+      const img = document.createElement("img");
+      img.src = url;
+      img.alt = project.title || "Project image";
+      img.loading = "lazy";
+      art.appendChild(img);
+    } else if (/\.(mp4|webm|ogg)$/.test(cleanUrl)) {
+      const video = document.createElement("video");
+      video.src = url;
+      video.controls = true;
+      video.preload = "metadata";
+      art.appendChild(video);
+    } else if (/\.pdf$/.test(cleanUrl)) {
+      art.textContent = "📄";
+    } else {
+      art.textContent = "📁";
+    }
+
+    body.append(tag, title, description, link);
+    card.append(art, body);
+
+    return card;
+  }
+
+  function applyProjectFilter() {
+    const cards = projectGrid.querySelectorAll(".project");
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const category = card.dataset.projectCategory || "";
+      const matches =
+        selectedCategory === "All" ||
+        normalizeCategory(category) === selectedCategory;
+
+      card.hidden = !matches;
+
+      if (matches) visibleCount++;
+    });
+
+    if (selectedCategory === "All") {
+      filterInfo.textContent = "Showing projects from all categories.";
+    } else {
+      filterInfo.textContent = "Category: " + selectedCategory;
+    }
+
+    if (visibleCount === 0) {
+      projectStatus.textContent =
+        "No projects in this category yet. New uploads will appear here.";
+    } else {
+      projectStatus.textContent =
+        visibleCount + " project(s) shown.";
+    }
+  }
+
+  categoryButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      selectedCategory = button.dataset.category;
+
+      categoryButtons.forEach((item) => {
+        item.classList.toggle("active", item === button);
+      });
+
+      document.getElementById("projects-title").textContent =
+        selectedCategory + " Projects";
+
+      applyProjectFilter();
+
+      document.getElementById("projects").scrollIntoView({
+        behavior: "smooth"
+      });
+    });
+  });
+
+  async function loadUploadedProjects() {
     try {
       const { data, error } = await portfolioSupabase
         .from("projects")
@@ -156,74 +916,39 @@
 
       if (error) throw error;
 
-      if (!data || data.length === 0) {
-        grid.textContent = "No uploaded projects yet.";
-        return;
-      }
+      uploadedProjects = data || [];
 
-      grid.replaceChildren();
-
-      data.forEach((project) => {
-        const card = document.createElement("article");
-        card.className = "project";
-
-        const art = document.createElement("div");
-        art.className = "project-art";
-
-        const body = document.createElement("div");
-        body.className = "project-body";
-
-        const tag = document.createElement("span");
-        tag.className = "tag";
-        tag.textContent = project.category || "Project";
-
-        const title = document.createElement("h3");
-        title.textContent = project.title || "Untitled Project";
-
-        const description = document.createElement("p");
-        description.textContent = project.description || "";
-
-        const link = document.createElement("a");
-        link.href = project.file_url;
-        link.target = "_blank";
-        link.rel = "noopener noreferrer";
-        link.textContent = "View Project ↗";
-
-        const url = project.file_url || "";
-        const cleanUrl = url.split("?")[0].toLowerCase();
-
-        if (/\.(jpg|jpeg|png|webp|gif)$/.test(cleanUrl)) {
-          const img = document.createElement("img");
-          img.src = url;
-          img.alt = project.title || "Project image";
-          img.loading = "lazy";
-          img.style.width = "100%";
-          img.style.height = "180px";
-          img.style.objectFit = "contain";
-          img.style.background = "#0c1422";
-          art.replaceChildren(img);
-        } else if (/\.mp4$/.test(cleanUrl)) {
-          art.textContent = "🎬 Video Project";
-        } else if (/\.pdf$/.test(cleanUrl)) {
-          art.textContent = "📄 PDF Project";
-        } else {
-          art.textContent = "📁 Project";
-        }
-
-        body.append(tag, title, description, link);
-        card.append(art, body);
-        grid.append(card);
+      uploadedProjects.forEach((project) => {
+        projectGrid.appendChild(createUploadedProject(project));
       });
 
+      if (uploadedProjects.length === 0) {
+        projectStatus.textContent =
+          "No admin uploads found yet. Sample projects are shown above.";
+      } else {
+        projectStatus.textContent =
+          uploadedProjects.length +
+          " uploaded project(s) loaded successfully.";
+      }
+
+      applyProjectFilter();
+
     } catch (error) {
-      grid.textContent =
-        "Could not load projects. Please check Supabase permissions and connection.";
-      console.error("Portfolio project loading error:", error);
+      console.error("Supabase project loading error:", error);
+
+      projectStatus.textContent =
+        "Uploaded projects could not load. Check the Supabase public SELECT policy and connection.";
+
+      applyProjectFilter();
     }
   }
+
+  document.getElementById("year").textContent =
+    new Date().getFullYear();
 
   loadUploadedProjects();
 </script>
 
 </body>
 </html>
+```
