@@ -4,12 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portfolio Admin</title>
+
+  <title>Portfolio Admin | Rahat Ahmed</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -22,14 +25,21 @@
     .container {
       max-width: 650px;
       margin: auto;
-      background: white;
-      padding: 25px;
+      padding: 28px;
+      background: #ffffff;
       border-radius: 14px;
       box-shadow: 0 8px 25px #00000012;
     }
 
-    h1 { margin-top: 0; }
-    p { color: #64748b; }
+    h1 {
+      margin-top: 0;
+      color: #1e3a8a;
+    }
+
+    p {
+      color: #64748b;
+      line-height: 1.5;
+    }
 
     label {
       display: block;
@@ -38,11 +48,13 @@
     }
 
     input, select, textarea {
+      display: block;
       width: 100%;
       padding: 12px;
       margin-top: 7px;
       border: 1px solid #cbd5e1;
       border-radius: 7px;
+      background: white;
       font-size: 15px;
     }
 
@@ -64,40 +76,81 @@
       cursor: pointer;
     }
 
-    button:disabled { opacity: 0.6; cursor: wait; }
-    .secondary { background: #475569; }
-    #uploadSection { display: none; }
-    #status { overflow-wrap: anywhere; margin-top: 18px; }
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    .secondary {
+      background: #475569;
+    }
+
+    #uploadSection {
+      display: none;
+    }
+
+    #status {
+      overflow-wrap: anywhere;
+      margin-top: 18px;
+    }
+
+    .note {
+      padding: 12px;
+      background: #eff6ff;
+      border-radius: 7px;
+      font-size: 13px;
+    }
   </style>
 </head>
 
 <body>
   <main class="container">
-    <h1>Portfolio Admin</h1>
-    <p>Sign in to manage your portfolio projects.</p>
 
+    <h1>Portfolio Admin</h1>
+    <p>Rahat Ahmed — Manage your portfolio projects.</p>
+
+    <!-- ADMIN LOGIN -->
     <section id="loginSection">
       <h2>Admin Login</h2>
 
-      <label for="email">Email</label>
-      <input id="email" type="email"
-        placeholder="Your admin email" autocomplete="username">
+      <label for="email">Admin Email</label>
+      <input
+        id="email"
+        type="email"
+        placeholder="Enter your admin email"
+        autocomplete="username"
+        required
+      >
 
       <label for="password">Password</label>
-      <input id="password" type="password"
-        placeholder="Your password" autocomplete="current-password">
+      <input
+        id="password"
+        type="password"
+        placeholder="Enter your password"
+        autocomplete="current-password"
+        required
+      >
 
       <button id="loginBtn" type="button">Login</button>
+
+      <p class="note">
+        Login with the account you created in Supabase Authentication.
+      </p>
     </section>
 
+    <!-- PROJECT UPLOAD -->
     <section id="uploadSection">
       <h2>Upload New Project</h2>
 
       <label for="title">Project Title</label>
-      <input id="title" type="text"
-        placeholder="e.g. Sales Dashboard">
+      <input
+        id="title"
+        type="text"
+        placeholder="Example: Excel Sales Dashboard"
+        required
+      >
 
-      <label for="category">Category</label>
+      <label for="category">Project Category</label>
       <select id="category">
         <option value="AI Development">AI Development</option>
         <option value="Excel">Excel</option>
@@ -107,25 +160,39 @@
         <option value="Video Editing">Video Editing</option>
       </select>
 
-      <label for="description">Description</label>
-      <textarea id="description"
-        placeholder="Describe your project"></textarea>
+      <label for="description">Project Description</label>
+      <textarea
+        id="description"
+        placeholder="Describe what you created and the skills you used."
+      ></textarea>
 
-      <label for="projectFile">Project File</label>
-      <input id="projectFile" type="file"
-        accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
+      <label for="projectFile">Select Project File</label>
+      <input
+        id="projectFile"
+        type="file"
+        accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf"
+        required
+      >
+
+      <p class="note">
+        Allowed files: JPG, PNG, WEBP, MP4 and PDF.
+        Maximum file size: 50 MB.
+      </p>
 
       <button id="uploadBtn" type="button">Upload Project</button>
       <button id="logoutBtn" class="secondary" type="button">Logout</button>
     </section>
 
-    <p id="status" role="status"></p>
+    <p id="status" role="status" aria-live="polite"></p>
   </main>
 
   <script>
-    // Replace these two values with your own Supabase details.
-    const SUPABASE_URL = "PASTE_YOUR_PROJECT_URL_HERE";
-    const SUPABASE_PUBLISHABLE_KEY = "PASTE_YOUR_PUBLISHABLE_KEY_HERE";
+    // SUPABASE CONNECTION
+    const SUPABASE_URL =
+      "https://inaazsmabgptpjckugwn.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_bjV2neW1ydd_yluL3mr-Zg_Og2pm9hK";
 
     const supabaseClient = window.supabase.createClient(
       SUPABASE_URL,
@@ -141,8 +208,10 @@
       statusBox.style.color = isError ? "#b91c1c" : "#166534";
     }
 
+    // CHECK LOGIN SESSION
     async function updateScreen() {
-      const { data, error } = await supabaseClient.auth.getSession();
+      const { data, error } =
+        await supabaseClient.auth.getSession();
 
       if (error) {
         showStatus(error.message, true);
@@ -150,123 +219,187 @@
       }
 
       const loggedIn = Boolean(data.session);
+
       loginSection.style.display = loggedIn ? "none" : "block";
       uploadSection.style.display = loggedIn ? "block" : "none";
     }
 
-    document.getElementById("loginBtn").addEventListener("click", async () => {
-      const button = document.getElementById("loginBtn");
-      button.disabled = true;
-      showStatus("Logging in...");
+    // ADMIN LOGIN
+    document.getElementById("loginBtn").addEventListener(
+      "click",
+      async () => {
+        const button = document.getElementById("loginBtn");
 
-      try {
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
+        const email =
+          document.getElementById("email").value.trim();
 
-        const { error } = await supabaseClient.auth.signInWithPassword({
-          email,
-          password
-        });
+        const password =
+          document.getElementById("password").value;
 
-        if (error) throw error;
-
-        document.getElementById("password").value = "";
-        await updateScreen();
-        showStatus("Login successful.");
-      } catch (error) {
-        showStatus(error.message, true);
-      } finally {
-        button.disabled = false;
-      }
-    });
-
-    document.getElementById("uploadBtn").addEventListener("click", async () => {
-      const button = document.getElementById("uploadBtn");
-      button.disabled = true;
-
-      try {
-        const title = document.getElementById("title").value.trim();
-        const category = document.getElementById("category").value;
-        const description = document.getElementById("description").value.trim();
-        const file = document.getElementById("projectFile").files[0];
-
-        if (!title) throw new Error("Please enter a project title.");
-        if (!file) throw new Error("Please select a project file.");
-        if (file.size > 50 * 1024 * 1024) {
-          throw new Error("File size must be 50 MB or less.");
-        }
-
-        const allowedTypes = [
-          "image/jpeg", "image/png", "image/webp",
-          "video/mp4", "application/pdf"
-        ];
-
-        if (!allowedTypes.includes(file.type)) {
-          throw new Error("Only JPG, PNG, WEBP, MP4 and PDF files are allowed.");
-        }
-
-        showStatus("Uploading file...");
-
-        const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_");
-        const filePath = `${crypto.randomUUID()}-${safeName}`;
-
-        const { error: uploadError } = await supabaseClient.storage
-          .from("portfolio-projects")
-          .upload(filePath, file, {
-            cacheControl: "3600",
-            upsert: false,
-            contentType: file.type
-          });
-
-        if (uploadError) throw uploadError;
-
-        const { data: urlData } = supabaseClient.storage
-          .from("portfolio-projects")
-          .getPublicUrl(filePath);
-
-        const { error: insertError } = await supabaseClient
-          .from("projects")
-          .insert({
-            title,
-            category,
-            description,
-            file_url: urlData.publicUrl
-          });
-
-        if (insertError) {
-          showStatus(
-            "File uploaded, but saving project details failed: " +
-            insertError.message +
-            ". The uploaded file may remain in Storage.",
-            true
-          );
+        if (!email || !password) {
+          showStatus("Enter your email and password.", true);
           return;
         }
 
-        document.getElementById("title").value = "";
-        document.getElementById("description").value = "";
-        document.getElementById("projectFile").value = "";
+        button.disabled = true;
+        showStatus("Logging in...");
 
-        showStatus("Project saved successfully!");
-      } catch (error) {
-        showStatus(error.message || "Upload failed.", true);
-      } finally {
-        button.disabled = false;
+        try {
+          const { error } =
+            await supabaseClient.auth.signInWithPassword({
+              email,
+              password
+            });
+
+          if (error) throw error;
+
+          document.getElementById("password").value = "";
+
+          await updateScreen();
+          showStatus("Login successful.");
+        } catch (error) {
+          showStatus(error.message || "Login failed.", true);
+        } finally {
+          button.disabled = false;
+        }
       }
-    });
+    );
 
-    document.getElementById("logoutBtn").addEventListener("click", async () => {
-      const { error } = await supabaseClient.auth.signOut();
+    // UPLOAD PROJECT
+    document.getElementById("uploadBtn").addEventListener(
+      "click",
+      async () => {
+        const button = document.getElementById("uploadBtn");
+        button.disabled = true;
 
-      if (error) {
-        showStatus(error.message, true);
-        return;
+        let uploadedFilePath = null;
+
+        try {
+          const { data: sessionData, error: sessionError } =
+            await supabaseClient.auth.getSession();
+
+          if (sessionError) throw sessionError;
+
+          if (!sessionData.session) {
+            throw new Error("Please log in first.");
+          }
+
+          const title =
+            document.getElementById("title").value.trim();
+
+          const category =
+            document.getElementById("category").value;
+
+          const description =
+            document.getElementById("description").value.trim();
+
+          const file =
+            document.getElementById("projectFile").files[0];
+
+          if (!title) {
+            throw new Error("Please enter a project title.");
+          }
+
+          if (!file) {
+            throw new Error("Please select a project file.");
+          }
+
+          if (file.size > 50 * 1024 * 1024) {
+            throw new Error("File must be 50 MB or smaller.");
+          }
+
+          const allowedTypes = [
+            "image/jpeg",
+            "image/png",
+            "image/webp",
+            "video/mp4",
+            "application/pdf"
+          ];
+
+          if (!allowedTypes.includes(file.type)) {
+            throw new Error(
+              "Only JPG, PNG, WEBP, MP4 and PDF files are allowed."
+            );
+          }
+
+          showStatus("Uploading project file...");
+
+          const safeName = file.name.replace(
+            /[^a-zA-Z0-9._-]/g,
+            "_"
+          );
+
+          uploadedFilePath =
+            `${crypto.randomUUID()}-${safeName}`;
+
+          const { error: uploadError } =
+            await supabaseClient.storage
+              .from("portfolio-projects")
+              .upload(uploadedFilePath, file, {
+                cacheControl: "3600",
+                upsert: false,
+                contentType: file.type
+              });
+
+          if (uploadError) throw uploadError;
+
+          const { data: urlData } =
+            supabaseClient.storage
+              .from("portfolio-projects")
+              .getPublicUrl(uploadedFilePath);
+
+          showStatus("Saving project details...");
+
+          const { error: insertError } =
+            await supabaseClient
+              .from("projects")
+              .insert({
+                title: title,
+                category: category,
+                description: description,
+                file_url: urlData.publicUrl
+              });
+
+          if (insertError) {
+            throw new Error(
+              "File uploaded but project details could not be saved: " +
+              insertError.message
+            );
+          }
+
+          document.getElementById("title").value = "";
+          document.getElementById("description").value = "";
+          document.getElementById("projectFile").value = "";
+
+          showStatus("Project uploaded and saved successfully!");
+        } catch (error) {
+          showStatus(
+            error.message || "Project upload failed.",
+            true
+          );
+        } finally {
+          button.disabled = false;
+        }
       }
+    );
 
-      await updateScreen();
-      showStatus("Logged out successfully.");
-    });
+    // LOGOUT
+    document.getElementById("logoutBtn").addEventListener(
+      "click",
+      async () => {
+        const { error } = await supabaseClient.auth.signOut();
 
+        if (error) {
+          showStatus(error.message, true);
+          return;
+        }
+
+        await updateScreen();
+        showStatus("Logged out successfully.");
+      }
+    );
+
+    // INITIALIZE
     updateScreen();
   </script>
 </body>
