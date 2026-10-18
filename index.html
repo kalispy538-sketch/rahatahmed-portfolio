@@ -66,7 +66,9 @@ footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);text-a
 </div>
 <aside class="hero-card"><div class="orb">RA</div><h3>Creative mind. Practical skills.</h3><p>Technology, data and design—brought together in one portfolio.</p><div class="mini-skills"><span>AI Development</span><span>Excel</span><span>Google Sheets</span><span>Design</span><span>Video</span></div></aside>
 </section>
+
 <section id="about"><div class="kicker">A little about me</div><h2>Learning, building, improving.</h2><p class="sub">I’m a motivated learner who enjoys technology, creative work and continuously improving my skills.</p><div class="about"><div class="panel"><h3>My approach</h3><p>I focus on practical learning, clear presentation and making each project better than the last.</p></div><div class="panel"><h3>What I’m working toward</h3><p>Building a strong body of work across data, automation, digital design and creative media.</p></div></div></section>
+
 <section id="skills"><div class="kicker">Explore my work</div><h2>Skills &amp; Services</h2><p class="sub">Click any category to see its projects below.</p><div class="skills">
 <button class="skill" data-category="AI Development"><div class="symbol">🤖</div><h3>AI Development</h3><p>Python experiments, AI tools and automation projects.</p></button>
 <button class="skill" data-category="Excel & Google Sheets"><div class="symbol">📊</div><h3>Excel &amp; Google Sheets</h3><p>Spreadsheets, dashboards, formulas and data cleaning.</p></button>
@@ -75,10 +77,13 @@ footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);text-a
 <button class="skill" data-category="Video Editing"><div class="symbol">🎬</div><h3>Video Editing</h3><p>Editing and preparing engaging video content.</p></button>
 <button class="skill" data-category="Office Productivity"><div class="symbol">📝</div><h3>Office Productivity</h3><p>MS Word, PowerPoint and professional documents.</p></button>
 </div></section>
-<section id="projects"><div class="kicker">My portfolio</div><h2 id="projects-title">All My Projects</h2><p class="sub">Choose a category above. Click any project to open the actual file or project link.</p><p class="filter-info" id="filter-info">Loading projects...</p><div class="project-grid" id="project-grid"></div><p class="note" id="project-status">Loading my projects...</p></section>
+
+<section id="projects"><div class="kicker">My portfolio</div><h2 id="projects-title">All My Projects</h2><p class="sub">Choose a category above. Open a project or its actual file below.</p><p class="filter-info" id="filter-info">Loading projects...</p><div class="project-grid" id="project-grid"></div><p class="note" id="project-status">Loading my projects...</p></section>
+
 <section id="contact"><div class="contact-box"><div><div class="kicker">Let’s connect</div><h2>Have a project in mind?</h2><p>Contact me about opportunities, collaborations or my work samples.</p></div><a class="btn" href="mailto:rahatahmed@gmail.com?subject=Portfolio%20Inquiry">Email Me ✉</a></div></section>
 </div></main>
 <footer><div class="wrap">© <span id="year"></span> Rahat Ahmed · Portfolio</div></footer>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (()=>{
@@ -105,27 +110,73 @@ return String(value||"Other").trim();
 
 function createCard(p){
 const url=String(p.file_url||"").trim();
+const workbookUrl=String(p.workbook_url||"").trim();
 const card=document.createElement("article");
 card.className="project";
 card.dataset.category=normalize(p.category);
-const art=document.createElement("div");art.className="project-art";
-const body=document.createElement("div");body.className="project-body";
-const tag=document.createElement("span");tag.className="tag";tag.textContent=p.category||"Project";
-const h=document.createElement("h3");h.textContent=p.title||"Untitled Project";
-const desc=document.createElement("p");desc.textContent=p.description||"Portfolio project.";
-const link=document.createElement("a");link.textContent=url?"View Project ↗":"File link unavailable";
-if(url){link.href=url;link.target="_blank";link.rel="noopener noreferrer";}
-else{link.href="#";link.addEventListener("click",e=>e.preventDefault());}
+
+const art=document.createElement("div");
+art.className="project-art";
+const body=document.createElement("div");
+body.className="project-body";
+const tag=document.createElement("span");
+tag.className="tag";
+tag.textContent=p.category||"Project";
+const h=document.createElement("h3");
+h.textContent=p.title||"Untitled Project";
+const desc=document.createElement("p");
+desc.textContent=p.description||"Portfolio project.";
+
+const link=document.createElement("a");
+const isExcelProject=Boolean(workbookUrl);
+link.textContent=isExcelProject?"Open Excel Workbook ↗":(url?"View Project ↗":"File link unavailable");
+const mainUrl=isExcelProject?workbookUrl:url;
+if(mainUrl){
+link.href=mainUrl;
+link.target="_blank";
+link.rel="noopener noreferrer";
+}else{
+link.href="#";
+link.addEventListener("click",e=>e.preventDefault());
+}
+
 const clean=url.split("?")[0].split("#")[0].toLowerCase();
 if(/\.(jpg|jpeg|png|webp|gif|avif)$/.test(clean)){
-const img=document.createElement("img");img.src=url;img.alt=p.title||"Project image";img.loading="lazy";
-img.onerror=()=>{art.replaceChildren();art.textContent="Image preview unavailable";};art.appendChild(img);
+const img=document.createElement("img");
+img.src=url;
+img.alt=p.title||"Project image";
+img.loading="lazy";
+img.onerror=()=>{art.replaceChildren();art.textContent="Image preview unavailable";};
+art.appendChild(img);
 }else if(/\.(mp4|webm|ogg|mov)$/.test(clean)){
-const video=document.createElement("video");video.src=url;video.controls=true;video.preload="metadata";art.appendChild(video);
-}else if(/\.pdf$/.test(clean)){art.textContent="📄 PDF";}
-else{art.textContent="↗";}
-body.append(tag,h,desc,link);card.append(art,body);
-card.addEventListener("click",e=>{if(e.target.closest("a")||e.target.closest("video"))return;if(url)window.open(url,"_blank","noopener,noreferrer");});
+const video=document.createElement("video");
+video.src=url;
+video.controls=true;
+video.preload="metadata";
+art.appendChild(video);
+}else if(/\.pdf$/.test(clean)){
+art.textContent="📄 PDF";
+}else{
+art.textContent="↗";
+}
+
+body.append(tag,h,desc,link);
+
+if(isExcelProject){
+const previewLink=document.createElement("a");
+previewLink.href=url||workbookUrl;
+previewLink.target="_blank";
+previewLink.rel="noopener noreferrer";
+previewLink.textContent="View Dashboard Image ↗";
+previewLink.style.marginTop="12px";
+body.appendChild(previewLink);
+}
+
+card.append(art,body);
+card.addEventListener("click",e=>{
+if(e.target.closest("a")||e.target.closest("video"))return;
+if(workbookUrl||url)window.open(workbookUrl||url,"_blank","noopener,noreferrer");
+});
 return card;
 }
 
@@ -147,15 +198,26 @@ document.getElementById("projects").scrollIntoView({behavior:"smooth"});
 
 async function loadProjects(){
 status.textContent="Connecting to Supabase...";
-if(!window.supabase){status.textContent="Supabase library did not load. Check internet connection.";return;}
+if(!window.supabase){
+status.textContent="Supabase library did not load. Check internet connection.";
+return;
+}
 try{
 const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const {data,error}=await client.from("projects").select("id,title,category,description,file_url,created_at").order("created_at",{ascending:false});
-if(error){console.error(error);status.textContent="Could not load projects: "+error.message;return;}
+const {data,error}=await client.from("projects").select("id,title,category,description,file_url,workbook_url,created_at").order("created_at",{ascending:false});
+if(error){
+console.error(error);
+status.textContent="Could not load projects: "+error.message;
+return;
+}
 projects=Array.isArray(data)?data:[];
 render();
-}catch(error){console.error(error);status.textContent="Portfolio error: "+(error.message||"Unknown error");}
+}catch(error){
+console.error(error);
+status.textContent="Portfolio error: "+(error.message||"Unknown error");
 }
+}
+
 document.getElementById("year").textContent=new Date().getFullYear();
 loadProjects();
 })();
