@@ -3,240 +3,271 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Rahat Ahmed's professional portfolio">
 <title>Rahat Ahmed | Portfolio</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#080d18;color:#edf4ff;font-family:Arial,sans-serif;line-height:1.6}
-header{padding:65px 20px;text-align:center;background:linear-gradient(135deg,#0d1b35,#102c52)}
-header h1{font-size:clamp(32px,6vw,52px);margin:0;color:#fff}
-header p{color:#b9cbe5;margin:12px 0}
-nav{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;padding:15px;background:#0b1323;position:sticky;top:0}
-nav a{color:#c8dcff;text-decoration:none}
-main{max-width:1100px;margin:auto;padding:25px 18px 60px}
-section{margin-top:38px}
-h2{color:#78b5ff;font-size:25px}
-.intro{color:#c0cde0;max-width:750px}
-.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
-.category{background:#111d31;border:1px solid #223752;border-radius:12px;padding:18px}
-.category h3{margin:0;color:#fff;font-size:16px}
-.category p{margin:7px 0 0;color:#aabbd2;font-size:13px}
-.filters{display:flex;gap:12px;flex-wrap:wrap;margin:18px 0}
-input,select{padding:12px;border-radius:8px;border:1px solid #344966;background:#101b2c;color:white;flex:1;min-width:190px}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
-.card{background:#101a2b;border:1px solid #24354e;border-radius:13px;overflow:hidden;display:flex;flex-direction:column}
-.preview{width:100%;height:190px;object-fit:cover;background:#17243a}
-.no-preview{height:130px;display:flex;align-items:center;justify-content:center;background:#15243b;color:#90bfff;font-size:36px}
-.content{padding:17px;display:flex;flex-direction:column;flex:1}
-.tag{font-size:12px;color:#81baff}
-.card h3{margin:6px 0;color:#fff;overflow-wrap:anywhere}
-.card p{font-size:14px;color:#bdcbe0;white-space:pre-wrap;overflow-wrap:anywhere}
-.links{display:flex;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
-.links a{color:#fff;background:#1d5bd1;padding:9px 12px;border-radius:7px;text-decoration:none;font-size:13px}
-.links a.secondary{background:#253a56}
-.muted{color:#a7b7ce}
-footer{text-align:center;padding:30px 15px;background:#0b1323;color:#9aacc5}
-.hidden{display:none}
+:root{--bg:#070b14;--panel:#101a2b;--text:#f4f7ff;--muted:#aebbd0;--blue:#4d8dff;--cyan:#65d6ff;--line:#263650}
+*{box-sizing:border-box;scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 75% 0%,#10234a 0,transparent 35%),var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif;line-height:1.6}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,92%);margin:auto}
+header{position:sticky;top:0;z-index:10;background:#070b14f2;border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0}
+.logo{font-weight:850;font-size:1.2rem}.logo span,h1 span{color:var(--cyan)}
+.navlinks{display:flex;gap:20px;color:var(--muted)}
+.btn{display:inline-block;padding:11px 17px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#3264ed);color:white;font-weight:bold;border:1px solid #6aa1ff;cursor:pointer}
+.secondary{background:transparent;border-color:var(--line)}
+section{padding:65px 0}
+.hero{padding:85px 0 70px;display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}
+.eyebrow,.tag{display:inline-block;border:1px solid #31518b;background:#102044;color:#b9d4ff;padding:6px 11px;border-radius:99px;font-size:.85rem}
+h1{font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.08;margin:20px 0}
+h2{font-size:clamp(1.8rem,3vw,2.5rem);margin:8px 0}
+.lead,.sub,.panel p,.hero-card p,.project p,.contact-box p{color:var(--muted)}
+.lead{font-size:1.08rem;max-width:650px}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.hero-card,.panel{padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#14223a,#0a1220)}
+.orb{width:100px;height:100px;border-radius:28px;display:grid;place-items:center;font-size:2.5rem;font-weight:bold;background:linear-gradient(135deg,#367bff,#5ed8ff);color:#07101d}
+.mini-skills{display:flex;gap:8px;flex-wrap:wrap}.mini-skills span{border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:.8rem}
+.kicker{color:var(--cyan);font-size:.8rem;text-transform:uppercase;letter-spacing:2px;font-weight:bold}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.skill{font:inherit;text-align:left;color:var(--text);padding:20px;border:1px solid var(--line);border-radius:15px;background:var(--panel);cursor:pointer}
+.skill:hover,.skill.active{border-color:var(--blue);background:#142440}
+.skill .symbol{font-size:1.5rem}.skill h3{margin:8px 0}.skill p{font-size:.9rem;color:var(--muted);margin:0}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.project{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;min-width:0}
+.project-art{height:200px;display:grid;place-items:center;font-size:2.5rem;background:#111c30;overflow:hidden}
+.project-art img,.project-art video{width:100%;height:200px;object-fit:contain;background:#0c1422}
+.project-body{padding:18px;display:flex;flex-direction:column;align-items:flex-start;flex:1}
+.project h3{margin:12px 0 6px}.project p{font-size:.9rem;overflow-wrap:anywhere}
+.project-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
+.project-links a{color:#82b1ff;font-weight:bold;font-size:.9rem}
+.filter-info,.note{color:var(--muted);font-size:.9rem}
+.contact-box{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px;background:#13294d;border:1px solid #2e4f83;border-radius:20px}
+footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);text-align:center}
+@media(max-width:780px){.hero{grid-template-columns:1fr}.about{grid-template-columns:1fr}.skills,.project-grid{grid-template-columns:repeat(2,1fr)}.navlinks{gap:10px}.navlinks .contact-nav{display:none}}
+@media(max-width:520px){.skills,.project-grid{grid-template-columns:1fr}.contact-box{align-items:flex-start;flex-direction:column}.navlinks{font-size:.8rem;gap:8px}nav>.btn{font-size:.75rem;padding:8px}}
 </style>
 </head>
 <body>
-<header>
-<h1>Rahat Ahmed</h1>
-<p>AI Development | Excel &amp; Google Sheets | Data Management | Creative Design</p>
-<p>Welcome to my professional project portfolio</p>
-</header>
+<header><div class="wrap"><nav>
+<a class="logo" href="#home">RAHAT<span>.</span></a>
+<div class="navlinks"><a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a class="contact-nav" href="#contact">Contact</a></div>
+<a class="btn" href="#projects">View My Work ↗</a>
+</nav></div></header>
 
-<nav>
-<a href="#about">About</a>
-<a href="#skills">Skills</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
-</nav>
-
-<main>
-<section id="about">
-<h2>About Me</h2>
-<p class="intro">I am a motivated and self-driven individual seeking an opportunity to apply my technical and creative skills. I enjoy developing projects, solving problems, and continuously improving my knowledge in AI development, data management, office applications, graphic design, and video editing.</p>
-</section>
-
-<section id="skills">
-<h2>Skills &amp; Expertise</h2>
-<div class="categories">
-<div class="category"><h3>AI Development</h3><p>AI projects and development experiments</p></div>
-<div class="category"><h3>Excel &amp; Google Sheets</h3><p>Dashboards, spreadsheets, reporting and data analysis</p></div>
-<div class="category"><h3>Data Entry &amp; Management</h3><p>Data organization, cleaning and record management</p></div>
-<div class="category"><h3>Graphic Design</h3><p>Digital designs and visual content</p></div>
-<div class="category"><h3>Video Editing</h3><p>Video projects and editing samples</p></div>
-<div class="category"><h3>Office Productivity</h3><p>Microsoft Word, PowerPoint and documents</p></div>
+<main><div class="wrap">
+<section class="hero" id="home">
+<div>
+<div class="eyebrow">● Open to opportunities · Always learning</div>
+<h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
+<p class="lead">I’m developing practical skills in AI development, Excel, Google Sheets, data management, graphic design and video editing. I enjoy turning ideas into useful, polished work.</p>
+<div class="actions"><a class="btn" href="#projects">Explore My Projects →</a><a class="btn secondary" href="#contact">Contact Me</a></div>
 </div>
+<aside class="hero-card"><div class="orb">RA</div><h3>Creative mind. Practical skills.</h3><p>Technology, data and design—brought together in one portfolio.</p><div class="mini-skills"><span>AI Development</span><span>Excel</span><span>Google Sheets</span><span>Design</span><span>Video</span></div></aside>
 </section>
 
-<section id="projects">
-<h2>My Projects</h2>
-<p class="muted">Browse projects by category or search for a project by name.</p>
-<div class="filters">
-<select id="categoryFilter">
-<option value="ALL">All Categories</option>
-<option>AI Development</option>
-<option>Excel &amp; Google Sheets</option>
-<option>Data Entry &amp; Management</option>
-<option>Graphic Design</option>
-<option>Video Editing</option>
-<option>Office Productivity</option>
-</select>
-<input id="searchBox" type="search" placeholder="Search projects...">
-</div>
-<div id="projectStatus" class="muted">Loading projects...</div>
-<div id="projectGrid" class="grid"></div>
-</section>
+<section id="about"><div class="kicker">A little about me</div><h2>Learning, building, improving.</h2><p class="sub">I’m a motivated learner who enjoys technology, creative work and continuously improving my skills.</p><div class="about"><div class="panel"><h3>My approach</h3><p>I focus on practical learning, clear presentation and making each project better than the last.</p></div><div class="panel"><h3>What I’m working toward</h3><p>Building a strong body of work across data, automation, digital design and creative media.</p></div></div></section>
 
-<section id="contact">
-<h2>Contact</h2>
-<p>Email: <a style="color:#81baff" href="mailto:rahatahmed@gmail.com">rahatahmed@gmail.com</a></p>
-</section>
-</main>
+<section id="skills"><div class="kicker">Explore my work</div><h2>Skills &amp; Services</h2><p class="sub">Click any category to see its projects below.</p><div class="skills">
+<button class="skill" data-category="AI Development"><div class="symbol">🤖</div><h3>AI Development</h3><p>Python experiments, AI tools and automation projects.</p></button>
+<button class="skill" data-category="Excel & Google Sheets"><div class="symbol">📊</div><h3>Excel &amp; Google Sheets</h3><p>Spreadsheets, dashboards, formulas and data cleaning.</p></button>
+<button class="skill" data-category="Data Entry & Management"><div class="symbol">🗂️</div><h3>Data Entry &amp; Management</h3><p>Organized records, accurate entry and clean datasets.</p></button>
+<button class="skill" data-category="Graphic Design"><div class="symbol">🎨</div><h3>Graphic Design</h3><p>Logos, banners, posters and visual content.</p></button>
+<button class="skill" data-category="Video Editing"><div class="symbol">🎬</div><h3>Video Editing</h3><p>Editing and preparing engaging video content.</p></button>
+<button class="skill" data-category="Office Productivity"><div class="symbol">📝</div><h3>Office Productivity</h3><p>MS Word, PowerPoint and professional documents.</p></button>
+</div></section>
 
-<footer>© <span id="year"></span> Rahat Ahmed. All rights reserved.</footer>
+<section id="projects"><div class="kicker">My portfolio</div><h2 id="projects-title">All My Projects</h2><p class="sub">Choose a category above. Open a project or its actual file below.</p><p class="filter-info" id="filter-info">Loading projects...</p><div class="project-grid" id="project-grid"></div><p class="note" id="project-status">Loading my projects...</p></section>
 
+<section id="contact"><div class="contact-box"><div><div class="kicker">Let’s connect</div><h2>Have a project in mind?</h2><p>Contact me about opportunities, collaborations or my work samples.</p></div><a class="btn" href="mailto:rahatahmed@gmail.com?subject=Portfolio%20Inquiry">Email Me ✉</a></div></section>
+</div></main>
+<footer><div class="wrap">© <span id="year"></span> Rahat Ahmed · Portfolio</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+(()=>{
+"use strict";
+
 const SUPABASE_URL="https://inaazsmabgptpjckugwn.supabase.co";
 const SUPABASE_KEY="sb_publishable_yBaRrATND_tJx4JXsIPAyA__LggH--V";
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
-const grid=document.getElementById("projectGrid");
-const statusBox=document.getElementById("projectStatus");
-const categoryFilter=document.getElementById("categoryFilter");
-const searchBox=document.getElementById("searchBox");
-document.getElementById("year").textContent=new Date().getFullYear();
+const grid=document.getElementById("project-grid");
+const status=document.getElementById("project-status");
+const info=document.getElementById("filter-info");
+const heading=document.getElementById("projects-title");
+const buttons=[...document.querySelectorAll(".skill")];
 
-let allProjects=[];
+let projects=[];
+let selected="All";
 
-function escapeHTML(value){
- return String(value||"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
+function normalize(value){
+const c=String(value||"").toLowerCase().trim();
+if(/ai|python|jarvis/.test(c))return "AI Development";
+if(/excel|spreadsheet|google sheets|dashboard/.test(c)||c==="sheets")return "Excel & Google Sheets";
+if(/data entry|data management|data cleaning/.test(c))return "Data Entry & Management";
+if(/graphic|design|logo|poster/.test(c))return "Graphic Design";
+if(/video|editing/.test(c))return "Video Editing";
+if(/office|word|powerpoint|power point|ms word/.test(c))return "Office Productivity";
+return String(value||"Other").trim();
 }
 
-function isImage(url){
- return /\.(png|jpe?g|webp|gif)(?:[?#].*)?$/i.test(url||"");
+function createLink(label,url){
+if(!url)return null;
+const a=document.createElement("a");
+a.href=url;
+a.target="_blank";
+a.rel="noopener noreferrer";
+a.textContent=label;
+return a;
 }
 
-function renderProjects(){
- const category=categoryFilter.value;
- const term=searchBox.value.trim().toLowerCase();
+function createCard(p){
+const previewUrl=String(p.file_url||"").trim();
+const workbookUrl=String(p.workbook_url||"").trim();
+const projectFileUrl=String(p.project_file_url||"").trim();
+const actualFileUrl=projectFileUrl||workbookUrl||"";
 
- const filtered=allProjects.filter(p=>{
-  const matchesCategory=category==="ALL"||p.category===category;
-  const text=[p.title,p.description,p.category].join(" ").toLowerCase();
-  return matchesCategory&&text.includes(term);
- });
+const card=document.createElement("article");
+card.className="project";
+card.dataset.category=normalize(p.category);
 
- grid.innerHTML="";
+const art=document.createElement("div");
+art.className="project-art";
 
- if(!filtered.length){
-  statusBox.textContent=allProjects.length
-   ?"No projects match your search."
-   :"No projects have been uploaded yet.";
-  return;
- }
+const body=document.createElement("div");
+body.className="project-body";
 
- statusBox.textContent=filtered.length+" project(s)";
+const tag=document.createElement("span");
+tag.className="tag";
+tag.textContent=p.category||"Project";
 
- filtered.forEach(p=>{
-  const card=document.createElement("article");
-  card.className="card";
+const h=document.createElement("h3");
+h.textContent=p.title||"Untitled Project";
 
-  const previewUrl=isImage(p.file_url)?p.file_url:null;
+const desc=document.createElement("p");
+desc.textContent=p.description||"Portfolio project.";
 
-  if(previewUrl){
-   const img=document.createElement("img");
-   img.className="preview";
-   img.src=previewUrl;
-   img.alt=(p.title||"Project")+" preview";
-   img.loading="lazy";
-   img.onerror=()=>img.replaceWith(makePlaceholder());
-   card.appendChild(img);
-  }else{
-   card.appendChild(makePlaceholder());
-  }
+const clean=previewUrl.split("?")[0].split("#")[0].toLowerCase();
 
-  const content=document.createElement("div");
-  content.className="content";
-
-  const tag=document.createElement("div");
-  tag.className="tag";
-  tag.textContent=p.category||"Project";
-
-  const title=document.createElement("h3");
-  title.textContent=p.title||"Untitled Project";
-
-  const desc=document.createElement("p");
-  desc.textContent=p.description||"";
-
-  content.append(tag,title,desc);
-
-  const links=document.createElement("div");
-  links.className="links";
-
-  function addLink(label,url,secondary){
-   if(!url)return;
-   const a=document.createElement("a");
-   a.href=url;
-   a.target="_blank";
-   a.rel="noopener noreferrer";
-   a.textContent=label;
-   if(secondary)a.className="secondary";
-   links.appendChild(a);
-  }
-
-  const workbook=p.workbook_url;
-  const projectFile=p.project_file_url;
-
-  if(workbook){
-   addLink("Open Excel Workbook ↗",workbook,false);
-  }
-
-  if(projectFile && projectFile!==workbook){
-   addLink("Open Project File ↗",projectFile,false);
-  }
-
-  if(previewUrl){
-   addLink("View Dashboard Image ↗",previewUrl,true);
-  }
-
-  if(links.children.length)content.appendChild(links);
-  card.appendChild(content);
-  grid.appendChild(card);
- });
+if(/\.(jpg|jpeg|png|webp|gif|avif)$/.test(clean)){
+const img=document.createElement("img");
+img.src=previewUrl;
+img.alt=(p.title||"Project")+" preview";
+img.loading="lazy";
+img.onerror=()=>{art.replaceChildren();art.textContent="Image preview unavailable";};
+art.appendChild(img);
+}else if(/\.(mp4|webm|ogg|mov)$/.test(clean)){
+const video=document.createElement("video");
+video.src=previewUrl;
+video.controls=true;
+video.preload="metadata";
+art.appendChild(video);
+}else if(/\.pdf$/.test(clean)){
+art.textContent="📄 PDF";
+}else{
+art.textContent="↗";
 }
 
-function makePlaceholder(){
- const div=document.createElement("div");
- div.className="no-preview";
- div.textContent="📁";
- return div;
+const links=document.createElement("div");
+links.className="project-links";
+
+if(workbookUrl){
+const workbookLink=createLink("Open Excel Workbook ↗",workbookUrl);
+if(workbookLink)links.appendChild(workbookLink);
 }
+
+if(actualFileUrl && actualFileUrl!==workbookUrl){
+const ext=(String(p.project_file_name||actualFileUrl).split("?")[0].split(".").pop()||"").toLowerCase();
+let label="Open Project File ↗";
+if(ext==="pdf")label="Open PDF ↗";
+else if(ext==="mp4")label="Watch Video ↗";
+else if(ext==="csv")label="Open CSV File ↗";
+else if(ext==="docx")label="Open Word File ↗";
+else if(ext==="pptx")label="Open PowerPoint File ↗";
+else if(ext==="py")label="Open Python File ↗";
+const fileLink=createLink(label,actualFileUrl);
+if(fileLink)links.appendChild(fileLink);
+}
+
+if(previewUrl && /\.(jpg|jpeg|png|webp|gif|avif)(\?.*)?$/i.test(previewUrl)){
+const previewLink=createLink("View Dashboard Image ↗",previewUrl);
+if(previewLink)links.appendChild(previewLink);
+}else if(previewUrl && !actualFileUrl){
+const previewLink=createLink("View Project ↗",previewUrl);
+if(previewLink)links.appendChild(previewLink);
+}
+
+body.append(tag,h,desc);
+if(links.children.length)body.appendChild(links);
+
+card.append(art,body);
+return card;
+}
+
+function render(){
+grid.replaceChildren();
+
+const shown=selected==="All"
+?projects
+:projects.filter(p=>normalize(p.category)===selected);
+
+shown.forEach(p=>grid.appendChild(createCard(p)));
+
+info.textContent=selected==="All"
+?`Showing all projects (${shown.length}).`
+:`Category: ${selected} (${shown.length}).`;
+
+status.textContent=shown.length
+?`${shown.length} project(s) loaded successfully.`
+:(selected==="All"
+?"No projects found. Check Supabase table permissions."
+:`No projects found in ${selected}. Check the category in Supabase.`);
+}
+
+buttons.forEach(button=>button.addEventListener("click",()=>{
+selected=button.dataset.category;
+buttons.forEach(b=>b.classList.toggle("active",b===button));
+heading.textContent=selected+" Projects";
+render();
+document.getElementById("projects").scrollIntoView({behavior:"smooth"});
+}));
 
 async function loadProjects(){
- statusBox.textContent="Loading projects...";
- const {data,error}=await db.from("projects")
-  .select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,created_at")
-  .order("created_at",{ascending:false});
+status.textContent="Connecting to Supabase...";
 
- if(error){
-  statusBox.textContent="Could not load projects. Please refresh the page.";
-  console.error("Supabase error:",error.message);
-  return;
- }
-
- allProjects=data||[];
- renderProjects();
+if(!window.supabase){
+status.textContent="Supabase library did not load. Check internet connection.";
+return;
 }
 
-categoryFilter.addEventListener("change",renderProjects);
-searchBox.addEventListener("input",renderProjects);
+try{
+const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+const {data,error}=await client
+.from("projects")
+.select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,created_at")
+.order("created_at",{ascending:false});
+
+if(error){
+console.error(error);
+status.textContent="Could not load projects: "+error.message;
+return;
+}
+
+projects=Array.isArray(data)?data:[];
+render();
+
+}catch(error){
+console.error(error);
+status.textContent="Portfolio error: "+(error.message||"Unknown error");
+}
+}
+
+document.getElementById("year").textContent=new Date().getFullYear();
 loadProjects();
+})();
 </script>
 </body>
 </html>
