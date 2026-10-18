@@ -3,245 +3,379 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portfolio Admin | Rahat Ahmed</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rahat Ahmed | Portfolio Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:25px 15px;font-family:Arial,sans-serif;background:#f1f5f9;color:#172033}
-.container{max-width:650px;margin:auto;padding:25px;background:white;border-radius:14px}
-label{display:block;margin-top:16px;font-weight:bold}
-input,select,textarea{display:block;width:100%;padding:12px;margin-top:7px;border:1px solid #cbd5e1;border-radius:7px}
-textarea{min-height:90px}
-button{width:100%;margin-top:18px;padding:13px;background:#2563eb;color:white;border:0;border-radius:7px;font-weight:bold;cursor:pointer}
-button:disabled{opacity:.6}
-.secondary{background:#475569}
-.note{padding:12px;background:#eff6ff;border-radius:7px;font-size:13px}
-#uploadSection{display:none}
+body{margin:0;padding:24px;background:#eef3f9;color:#10203a;font-family:Arial,sans-serif}
+main{max-width:850px;margin:20px auto;background:white;padding:26px;border-radius:16px;box-shadow:0 8px 30px #14213d12}
+h1{font-size:27px;margin-top:0}
+h2{font-size:21px;margin-top:28px}
+label{display:block;font-weight:bold;margin:14px 0 7px}
+input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
+textarea{min-height:85px;resize:vertical}
+button{padding:12px 16px;border:0;border-radius:7px;cursor:pointer;font-weight:bold}
+.primary{background:#2864ed;color:white;width:100%;margin-top:18px}
+.secondary{background:#475569;color:white}
+.danger{background:#dc2626;color:white}
+.project{border:1px solid #dbe3ef;border-radius:10px;padding:15px;margin-top:12px}
+.project-title{font-size:17px;font-weight:bold;overflow-wrap:anywhere}
+.meta{font-size:13px;color:#64748b;margin:7px 0}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.actions button{flex:1}
+.notice{padding:12px;border-radius:8px;background:#eff6ff;margin-top:12px;font-size:14px;overflow-wrap:anywhere}
 .hidden{display:none!important}
-#status{overflow-wrap:anywhere}
+#status{white-space:pre-wrap;overflow-wrap:anywhere}
+.small{font-size:13px;color:#64748b;line-height:1.5}
 </style>
 </head>
 <body>
-<main class="container">
+<main>
 <h1>Portfolio Admin</h1>
 <p>Rahat Ahmed — Manage your portfolio projects.</p>
 
-<section id="loginSection">
+<section id="loginPanel">
 <h2>Admin Login</h2>
-<label>Admin Email</label>
-<input id="email" type="email" autocomplete="username">
+<form id="loginForm">
+<label>Email</label>
+<input id="email" type="email" autocomplete="username" required>
 <label>Password</label>
-<input id="password" type="password" autocomplete="current-password">
-<button id="loginBtn">Login</button>
-<p class="note">Login with your Supabase Authentication account.</p>
+<input id="password" type="password" autocomplete="current-password" required>
+<button class="primary" type="submit">Login</button>
+</form>
 </section>
 
-<section id="uploadSection">
-<h2>Upload New Project</h2>
+<section id="adminPanel" class="hidden">
+<div class="actions">
+<button class="secondary" id="logoutBtn" type="button">Logout</button>
+</div>
 
+<h2>Upload New Project</h2>
+<form id="uploadForm">
 <label>Project Title</label>
-<input id="title" placeholder="Example: Excel Sales Dashboard">
+<input id="title" required placeholder="Example: Excel Sales Dashboard">
 
 <label>Project Category</label>
-<select id="category">
-<option value="AI Development">AI Development</option>
-<option value="Excel & Google Sheets">Excel & Google Sheets</option>
-<option value="Data Entry & Management">Data Entry & Management</option>
-<option value="Graphic Design">Graphic Design</option>
-<option value="Video Editing">Video Editing</option>
-<option value="Office Productivity">Office Productivity</option>
+<select id="category" required>
+<option>AI Development</option>
+<option>Excel &amp; Google Sheets</option>
+<option>Data Entry &amp; Management</option>
+<option>Graphic Design</option>
+<option>Video Editing</option>
+<option>Office Productivity</option>
 </select>
 
 <label>Project Description</label>
 <textarea id="description" placeholder="Describe your project"></textarea>
 
-<div id="singleFileGroup">
-<label>Select Project File</label>
-<input id="projectFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,application/pdf">
-<p class="note">JPG, PNG, WEBP, MP4 or PDF. Maximum 50 MB.</p>
-</div>
+<label>Preview Image (optional)</label>
+<input id="preview" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
 
-<div id="excelFileGroup" class="hidden">
-<label>Dashboard Preview Image</label>
-<input id="previewFile" type="file" accept="image/jpeg,image/png,image/webp">
+<label>Project File (optional)</label>
+<input id="projectFile" type="file" accept=".xlsx,.csv,.pdf,.docx,.pptx,.py,.ipynb,.mp4,.png,.jpg,.jpeg,.webp,.zip,.txt">
 
-<label>Actual Excel Workbook (.xlsx)</label>
-<input id="workbookFile" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+<p class="small">Maximum 50 MB per file. Select a preview image and/or a project file. Uploads must match the file types allowed in your Supabase Storage bucket.</p>
+<button class="primary" type="submit" id="uploadBtn">Upload Project</button>
+</form>
 
-<p class="note">Select both files. Maximum 50 MB per file.</p>
-</div>
+<div class="notice" id="status">Login to manage projects.</div>
 
-<button id="uploadBtn">Upload Project</button>
-<button id="logoutBtn" class="secondary">Logout</button>
+<h2>Manage Existing Projects</h2>
+<label>Filter by Category</label>
+<select id="filterCategory">
+<option value="ALL">All Categories</option>
+<option>AI Development</option>
+<option>Excel &amp; Google Sheets</option>
+<option>Data Entry &amp; Management</option>
+<option>Graphic Design</option>
+<option>Video Editing</option>
+<option>Office Productivity</option>
+</select>
+
+<div id="projectCount" class="small"></div>
+<div id="projectList"></div>
 </section>
-
-<p id="status" role="status"></p>
 </main>
 
 <script>
-const SUPABASE_URL="https://inaazsmabgptpjckugwn.supabase.co";
-const SUPABASE_KEY="sb_publishable_yBaRrATND_tJx4JXsIPAyA__LggH--V";
-const XLSX_TYPE="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-const MAX_SIZE=50*1024*1024;
+const SUPABASE_URL = "https://inaazsmabgptpjckugwn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_yBaRrATND_tJx4JXsIPAyA__LggH--V";
+const BUCKET = "portfolio-projects";
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const db=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
+let projects = [];
 
-function showStatus(message,error=false){
-  $("status").textContent=message;
-  $("status").style.color=error?"#b91c1c":"#166534";
+function status(message) {
+  $("status").textContent = message;
 }
 
-function updateFields(){
-  const isExcel=$("category").value==="Excel & Google Sheets";
-  $("singleFileGroup").classList.toggle("hidden",isExcel);
-  $("excelFileGroup").classList.toggle("hidden",!isExcel);
-  $("projectFile").required=!isExcel;
-  $("previewFile").required=isExcel;
-  $("workbookFile").required=isExcel;
+function safeText(value) {
+  return String(value || "");
 }
 
-$("category").addEventListener("change",updateFields);
-
-async function updateScreen(){
-  const {data,error}=await db.auth.getSession();
-  if(error){showStatus(error.message,true);return;}
-  const loggedIn=Boolean(data.session);
-  $("loginSection").style.display=loggedIn?"none":"block";
-  $("uploadSection").style.display=loggedIn?"block":"none";
+function escapeHTML(value) {
+  return safeText(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
 }
 
-$("loginBtn").addEventListener("click",async()=>{
-  const email=$("email").value.trim();
-  const password=$("password").value;
-  const button=$("loginBtn");
+function showAdmin(isLoggedIn) {
+  $("loginPanel").classList.toggle("hidden", isLoggedIn);
+  $("adminPanel").classList.toggle("hidden", !isLoggedIn);
+  if (isLoggedIn) loadProjects();
+}
 
-  if(!email||!password){
-    showStatus("Enter your email and password.",true);
+async function checkSession() {
+  const {data, error} = await db.auth.getSession();
+  if (error) status(error.message);
+  showAdmin(!!data.session);
+}
+
+$("loginForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  status("Logging in...");
+  const {error} = await db.auth.signInWithPassword({
+    email: $("email").value.trim(),
+    password: $("password").value
+  });
+  if (error) {
+    status("Login failed: " + error.message);
+    return;
+  }
+  status("Login successful.");
+  showAdmin(true);
+});
+
+$("logoutBtn").addEventListener("click", async () => {
+  const {error} = await db.auth.signOut();
+  if (error) status("Logout failed: " + error.message);
+  showAdmin(false);
+  status(error ? error.message : "Logged out.");
+});
+
+db.auth.onAuthStateChange((_event, session) => {
+  showAdmin(!!session);
+});
+
+function safeFileName(name) {
+  return name.normalize("NFKD")
+    .replace(/[^\w.-]+/g, "_")
+    .replace(/^_+|_+$/g, "") || "file";
+}
+
+async function uploadFile(file, folder) {
+  if (!file) return null;
+  if (file.size > 50 * 1024 * 1024) {
+    throw new Error(file.name + " is larger than 50 MB.");
+  }
+  const path = folder + "/" + Date.now() + "_" +
+    Math.random().toString(36).slice(2, 9) + "_" +
+    safeFileName(file.name);
+
+  const {error} = await db.storage.from(BUCKET).upload(path, file, {
+    upsert: false,
+    contentType: file.type || "application/octet-stream"
+  });
+  if (error) throw error;
+
+  const {data} = db.storage.from(BUCKET).getPublicUrl(path);
+  return {url: data.publicUrl, path, name: file.name};
+}
+
+function filePathFromUrl(url) {
+  if (!url) return null;
+  try {
+    const parsed = new URL(url);
+    const marker = "/storage/v1/object/public/" + BUCKET + "/";
+    const index = parsed.pathname.indexOf(marker);
+    if (index === -1) return null;
+    return decodeURIComponent(parsed.pathname.slice(index + marker.length));
+  } catch (_) {
+    return null;
+  }
+}
+
+async function deleteStoredFile(url) {
+  const path = filePathFromUrl(url);
+  if (!path) return;
+  const {error} = await db.storage.from(BUCKET).remove([path]);
+  if (error) throw error;
+}
+
+$("uploadForm").addEventListener("submit", async event => {
+  event.preventDefault();
+  const title = $("title").value.trim();
+  const category = $("category").value;
+  const description = $("description").value.trim();
+  const preview = $("preview").files[0];
+  const projectFile = $("projectFile").files[0];
+
+  if (!preview && !projectFile) {
+    status("Choose a preview image or a project file.");
     return;
   }
 
-  button.disabled=true;
-  showStatus("Logging in...");
+  $("uploadBtn").disabled = true;
+  status("Uploading files... Please wait.");
 
-  try{
-    const {error}=await db.auth.signInWithPassword({email,password});
-    if(error)throw error;
-    $("password").value="";
-    await updateScreen();
-    showStatus("Login successful.");
-  }catch(error){
-    showStatus(error.message,true);
-  }finally{
-    button.disabled=false;
+  let uploadedPreview = null;
+  let uploadedProject = null;
+
+  try {
+    if (preview) uploadedPreview = await uploadFile(preview, "previews");
+    if (projectFile) uploadedProject = await uploadFile(projectFile, "projects");
+
+    const ext = projectFile ? projectFile.name.split(".").pop().toLowerCase() : "";
+    const record = {
+      title,
+      category,
+      description,
+      file_url: uploadedPreview ? uploadedPreview.url : null,
+      workbook_url: ext === "xlsx" && uploadedProject ? uploadedProject.url : null,
+      project_file_url: uploadedProject ? uploadedProject.url : null,
+      project_file_name: uploadedProject ? uploadedProject.name : null
+    };
+
+    const {error} = await db.from("projects").insert(record);
+    if (error) throw error;
+
+    status("Project uploaded successfully!");
+    $("uploadForm").reset();
+    await loadProjects();
+  } catch (error) {
+    status("Upload failed: " + (error.message || String(error)) +
+      "\nIf a file was uploaded before the error, it may remain in Storage.");
+  } finally {
+    $("uploadBtn").disabled = false;
   }
 });
 
-async function uploadFile(file,prefix){
-  if(!file)throw new Error("Please select all required files.");
-  if(file.size>MAX_SIZE)throw new Error(file.name+" exceeds 50 MB.");
+$("filterCategory").addEventListener("change", renderProjects);
 
-  const safeName=file.name.replace(/[^a-zA-Z0-9._-]/g,"_");
-  const path=crypto.randomUUID()+"-"+prefix+"-"+safeName;
+async function loadProjects() {
+  $("projectList").innerHTML = "";
+  $("projectCount").textContent = "Loading projects...";
 
-  const {error}=await db.storage
-    .from("portfolio-projects")
-    .upload(path,file,{
-      cacheControl:"3600",
-      upsert:false,
-      contentType:file.type ||
-        (file.name.toLowerCase().endsWith(".xlsx")?XLSX_TYPE:undefined)
-    });
+  const {data, error} = await db.from("projects")
+    .select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,created_at")
+    .order("created_at", {ascending: false});
 
-  if(error)throw error;
+  if (error) {
+    $("projectCount").textContent = "";
+    status("Could not load projects: " + error.message);
+    return;
+  }
 
-  return db.storage
-    .from("portfolio-projects")
-    .getPublicUrl(path).data.publicUrl;
+  projects = data || [];
+  renderProjects();
 }
 
-$("uploadBtn").addEventListener("click",async()=>{
-  const button=$("uploadBtn");
-  button.disabled=true;
+function renderProjects() {
+  const filter = $("filterCategory").value;
+  const shown = filter === "ALL"
+    ? projects
+    : projects.filter(p => p.category === filter);
 
-  try{
-    const {data,error}=await db.auth.getSession();
-    if(error)throw error;
-    if(!data.session)throw new Error("Please log in first.");
+  $("projectCount").textContent = shown.length + " project(s)";
+  $("projectList").innerHTML = "";
 
-    const title=$("title").value.trim();
-    const category=$("category").value;
-    const description=$("description").value.trim();
+  if (!shown.length) {
+    $("projectList").innerHTML = "<p>No projects in this category.</p>";
+    return;
+  }
 
-    if(!title)throw new Error("Enter project title.");
+  shown.forEach(project => {
+    const card = document.createElement("div");
+    card.className = "project";
 
-    let file_url;
-    let workbook_url=null;
+    const title = document.createElement("div");
+    title.className = "project-title";
+    title.textContent = project.title || "Untitled project";
 
-    if(category==="Excel & Google Sheets"){
-      const preview=$("previewFile").files[0];
-      const workbook=$("workbookFile").files[0];
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    meta.textContent = (project.category || "Uncategorized") +
+      (project.created_at ? " • " + new Date(project.created_at).toLocaleDateString() : "");
 
-      if(!preview||!workbook)
-        throw new Error("Select both the preview image and Excel workbook.");
+    const desc = document.createElement("p");
+    desc.textContent = project.description || "";
 
-      if(!["image/jpeg","image/png","image/webp"].includes(preview.type))
-        throw new Error("Preview must be JPG, PNG or WEBP.");
+    card.append(title, meta, desc);
 
-      if(!(workbook.name.toLowerCase().endsWith(".xlsx")||workbook.type===XLSX_TYPE))
-        throw new Error("Workbook must be an .xlsx file.");
-
-      showStatus("Uploading dashboard image...");
-      file_url=await uploadFile(preview,"preview");
-
-      showStatus("Uploading Excel workbook...");
-      workbook_url=await uploadFile(workbook,"workbook");
-
-    }else{
-      const file=$("projectFile").files[0];
-      if(!file)throw new Error("Select a project file.");
-
-      if(!["image/jpeg","image/png","image/webp","video/mp4","application/pdf"].includes(file.type))
-        throw new Error("Unsupported file type.");
-
-      showStatus("Uploading project...");
-      file_url=await uploadFile(file,"project");
+    const links = [];
+    if (project.file_url) links.push(["Preview image", project.file_url]);
+    if (project.project_file_url) {
+      links.push([project.project_file_name || "Project file", project.project_file_url]);
+    } else if (project.workbook_url) {
+      links.push(["Excel workbook", project.workbook_url]);
     }
 
-    const record={title,category,description,file_url};
-    if(workbook_url)record.workbook_url=workbook_url;
+    links.forEach(([label, url]) => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.textContent = "Open " + label;
+      a.style.marginRight = "14px";
+      card.appendChild(a);
+    });
 
-    showStatus("Saving project details...");
-    const {error:saveError}=await db.from("projects").insert(record);
+    const actions = document.createElement("div");
+    actions.className = "actions";
+    const del = document.createElement("button");
+    del.className = "danger";
+    del.textContent = "Delete Project";
+    del.addEventListener("click", () => deleteProject(project));
+    actions.appendChild(del);
+    card.appendChild(actions);
+    $("projectList").appendChild(card);
+  });
+}
 
-    if(saveError)
-      throw new Error("Database save failed: "+saveError.message);
+async function deleteProject(project) {
+  const name = project.title || "this project";
+  if (!confirm('Delete "' + name + '"?\nThe project record and linked files will be deleted.')) return;
 
-    $("title").value="";
-    $("description").value="";
-    $("projectFile").value="";
-    $("previewFile").value="";
-    $("workbookFile").value="";
-
-    showStatus("Project uploaded successfully!");
-
-  }catch(error){
-    showStatus(error.message||"Upload failed.",true);
-  }finally{
-    button.disabled=false;
+  status("Deleting project...");
+  const {data: sessionData} = await db.auth.getSession();
+  if (!sessionData.session) {
+    status("Your session expired. Please log in again.");
+    showAdmin(false);
+    return;
   }
-});
 
-$("logoutBtn").addEventListener("click",async()=>{
-  const {error}=await db.auth.signOut();
-  if(error){showStatus(error.message,true);return;}
-  await updateScreen();
-  showStatus("Logged out successfully.");
-});
+  try {
+    // Remove database record first. If this fails, keep the files.
+    const {error: rowError} = await db.from("projects")
+      .delete()
+      .eq("id", project.id);
+    if (rowError) throw rowError;
 
-updateFields();
-updateScreen();
+    // Delete linked files from Storage where the URL belongs to this bucket.
+    const urls = [...new Set([
+      project.file_url,
+      project.workbook_url,
+      project.project_file_url
+    ].filter(Boolean))];
+
+    const results = await Promise.allSettled(urls.map(deleteStoredFile));
+    const failed = results.filter(r => r.status === "rejected");
+
+    await loadProjects();
+
+    if (failed.length) {
+      status("Project record deleted, but one or more Storage files could not be deleted. Check Storage policies and bucket URLs.");
+    } else {
+      status("Project and linked Storage files deleted successfully.");
+    }
+  } catch (error) {
+    status("Delete failed: " + (error.message || String(error)));
+  }
+}
+
+checkSession();
 </script>
 </body>
 </html>
