@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,6 +22,11 @@ nav{min-height:72px;display:flex;align-items:center;justify-content:space-betwee
 .hire{background:var(--blue);color:white;padding:10px 17px;border-radius:8px;font-weight:bold}
 section{padding:88px 0;scroll-margin-top:75px}
 .hero{min-height:590px;display:flex;align-items:center;background:radial-gradient(ellipse at 80% 30%,#15336566,transparent 42%)}
+.hero-layout{display:grid;grid-template-columns:1.35fr .65fr;align-items:center;gap:45px}
+.hero-content{min-width:0}
+.profile-wrap{display:flex;justify-content:center;align-items:center}
+.profile-photo{width:290px;height:290px;border-radius:50%;object-fit:cover;border:5px solid var(--blue);box-shadow:0 0 35px #4d8dff55;background:var(--panel2);display:block}
+.profile-placeholder{width:290px;height:290px;border-radius:50%;border:5px solid var(--blue);box-shadow:0 0 35px #4d8dff55;background:linear-gradient(135deg,#13294b,#0b1425);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:76px;font-weight:900}
 .kicker{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:3px;text-transform:uppercase}
 h1{font-size:clamp(42px,7vw,76px);line-height:1.08;max-width:800px;margin:18px 0}
 h1 span{color:var(--cyan)}
@@ -60,6 +66,9 @@ footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-s
 @media(max-width:800px){
 .skills,.project-grid{grid-template-columns:repeat(2,1fr)}
 .navlinks{gap:12px}
+.hero-layout{grid-template-columns:1fr;gap:30px}
+.profile-wrap{grid-row:1}
+.profile-photo,.profile-placeholder{width:220px;height:220px}
 }
 @media(max-width:560px){
 .wrap{width:min(100% - 28px,1120px)}
@@ -69,6 +78,7 @@ nav{flex-wrap:wrap;padding:12px 0}
 section{padding:65px 0}
 .skills,.project-grid,.about{grid-template-columns:1fr}
 .contact-box{align-items:flex-start;flex-direction:column;padding:24px}
+.profile-photo,.profile-placeholder{width:190px;height:190px}
 }
 </style>
 </head>
@@ -85,14 +95,16 @@ section{padding:65px 0}
 <a href="#projects">Projects</a>
 <a href="#contact">Contact</a>
 </div>
-<a class="hire" href="mailto:rahatahmed11001@gmail.com">Hire Me</a>
+<a class="hire" href="#contact">Hire Me</a>
 </nav>
 </div>
 </header>
 
 <main>
 <section class="hero" id="home">
-<div class="wrap">
+<div class="wrap hero-layout">
+
+<div class="hero-content">
 <div class="kicker">AI Developer · Creative Professional</div>
 <h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
 <p>I work with AI development, Excel, Google Sheets, data management, graphic design and video editing. I enjoy learning new technologies and building practical projects.</p>
@@ -100,6 +112,12 @@ section{padding:65px 0}
 <a class="btn" href="#projects">Explore My Work</a>
 <a class="btn outline" href="#contact">Contact Me</a>
 </div>
+</div>
+
+<div class="profile-wrap" id="profile-container">
+<div class="profile-placeholder">RA</div>
+</div>
+
 </div>
 </section>
 
@@ -354,6 +372,41 @@ render();
 document.getElementById("projects").scrollIntoView({behavior:"smooth"});
 }));
 
+async function loadProfilePhoto(client){
+const container=document.getElementById("profile-container");
+
+try{
+const {data,error}=await client
+.from("portfolio_settings")
+.select("profile_photo_url")
+.eq("id",1)
+.maybeSingle();
+
+if(error)throw error;
+
+if(data && data.profile_photo_url){
+const img=document.createElement("img");
+img.className="profile-photo";
+img.src=data.profile_photo_url;
+img.alt="Rahat Ahmed Profile Photo";
+img.onerror=()=>{
+container.innerHTML='<div class="profile-placeholder">RA</div>';
+};
+container.replaceChildren(img);
+}
+}catch(error){
+console.warn("Profile photo could not be loaded:",error.message);
+}
+}
+
+buttons.forEach(button=>button.addEventListener("click",()=>{
+selected=button.dataset.category;
+buttons.forEach(b=>b.classList.toggle("active",b===button));
+heading.textContent=selected+" Projects";
+render();
+document.getElementById("projects").scrollIntoView({behavior:"smooth"});
+}));
+
 async function loadProjects(){
 status.textContent="Connecting to Supabase...";
 
@@ -364,6 +417,8 @@ return;
 
 try{
 const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+
+loadProfilePhoto(client);
 
 const {data,error}=await client
 .from("projects")
