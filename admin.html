@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,246 +5,357 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rahat Ahmed | Portfolio Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 *{box-sizing:border-box}
-body{margin:0;padding:24px;background:#eef3f9;color:#10203a;font-family:Arial,sans-serif}
-main{max-width:850px;margin:20px auto;background:white;padding:26px;border-radius:16px;box-shadow:0 8px 30px #14213d12}
-h1{font-size:27px;margin-top:0}h2{font-size:21px;margin-top:28px}
-label{display:block;font-weight:bold;margin:14px 0 7px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px;background:white}
-textarea{min-height:85px;resize:vertical}
-button{padding:12px 16px;border:0;border-radius:7px;cursor:pointer;font-weight:bold}
-.primary{background:#2864ed;color:white;width:100%;margin-top:18px}
-.secondary{background:#475569;color:white}.danger{background:#dc2626;color:white}
-.project{border:1px solid #dbe3ef;border-radius:10px;padding:15px;margin-top:12px}
-.project-title{font-size:17px;font-weight:bold;overflow-wrap:anywhere}
-.meta{font-size:13px;color:#64748b;margin:7px 0}
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.actions button{flex:1}
-.notice{padding:12px;border-radius:8px;background:#eff6ff;margin-top:12px;font-size:14px;overflow-wrap:anywhere}
-.hidden{display:none!important}#status{white-space:pre-wrap;overflow-wrap:anywhere}
-.small{font-size:13px;color:#64748b;line-height:1.5}
+body{margin:0;background:#edf3fa;color:#101d35;font-family:Arial,sans-serif}
+.container{max-width:760px;margin:35px auto;padding:25px;background:white;border-radius:12px}
+h1,h2{color:#14284b}
+label{display:block;font-weight:bold;margin:16px 0 7px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:7px;font-size:14px}
+textarea{min-height:90px;resize:vertical}
+button{padding:12px 18px;border:0;border-radius:7px;background:#2864ed;color:white;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.5}
+.full{width:100%;margin-top:18px}
+.secondary{background:#475569}
+.danger{background:#dc2626}
+.card{border:1px solid #dce4ef;padding:15px;border-radius:9px;margin-top:12px}
+.card img{max-width:180px;border-radius:7px;margin-top:8px}
+.message{padding:12px;background:#eff6ff;border-radius:7px;margin-top:12px;overflow-wrap:anywhere}
+.hidden{display:none}
+.small{font-size:12px;color:#64748b;line-height:1.5}
 </style>
 </head>
-<body>
-<main>
-<h1>Portfolio Admin</h1>
-<p>Rahat Ahmed — Manage your portfolio projects.</p>
 
-<section id="loginPanel">
+<body>
+<div class="container">
+
+<h1>RAHAT. Admin Panel</h1>
+
+<section id="loginSection">
 <h2>Admin Login</h2>
-<form id="loginForm">
-<label>Email</label><input id="email" type="email" autocomplete="username" required>
-<label>Password</label><input id="password" type="password" autocomplete="current-password" required>
-<button class="primary" type="submit">Login</button>
-</form>
+
+<label>Email</label>
+<input id="email" type="email" placeholder="Admin email">
+
+<label>Password</label>
+<input id="password" type="password" placeholder="Password">
+
+<button class="full" id="loginBtn" onclick="login()">Login</button>
+<div id="loginMessage" class="message hidden"></div>
 </section>
 
-<section id="adminPanel" class="hidden">
-<div class="actions"><button class="secondary" id="logoutBtn" type="button">Logout</button></div>
+<section id="adminSection" class="hidden">
+
+<button class="secondary" onclick="logout()">Logout</button>
+
 <h2>Upload New Project</h2>
-<form id="uploadForm">
-<label>Project Title</label><input id="title" required placeholder="Example: Excel Sales Dashboard">
-<label>Project Category</label>
-<select id="category" required>
-<option>AI Development</option><option>Excel &amp; Google Sheets</option>
-<option>Data Entry &amp; Management</option><option>Graphic Design</option>
-<option>Video Editing</option><option>Office Productivity</option>
+
+<label>Project Title *</label>
+<input id="title" placeholder="Project title">
+
+<label>Category *</label>
+<select id="category">
+<option value="">Select Category</option>
+<option>AI Development</option>
+<option>Excel & Google Sheets</option>
+<option>Data Entry & Management</option>
+<option>Graphic Design</option>
+<option>Video Editing</option>
+<option>Office Productivity</option>
 </select>
-<label>Project Description</label><textarea id="description" placeholder="Describe your project"></textarea>
+
+<label>Description</label>
+<textarea id="description" placeholder="Project description"></textarea>
 
 <label>YouTube Video Link (optional)</label>
-<input id="youtubeUrl" type="url" placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
-<p class="small">Paste a YouTube video link. Its thumbnail will appear automatically on your portfolio; visitors can click it to play the video.</p>
-<div id="youtubePreviewBox" class="hidden" style="margin-top:10px">
-<img id="youtubePreview" alt="YouTube thumbnail preview" style="width:100%;max-width:420px;border-radius:10px;display:block">
-</div>
+<input id="youtube" placeholder="https://youtu.be/VIDEO_ID" oninput="previewYoutube()">
+<p class="small">Paste a YouTube link. Its thumbnail will appear automatically.</p>
+<div id="youtubePreview"></div>
 
 <label>Preview Image (optional)</label>
-<input id="preview" type="file" accept=".png,.jpg,.jpeg,.webp,image/png,image/jpeg,image/webp">
-<label>Project File (optional)</label>
-<input id="projectFile" type="file" accept=".xlsx,.csv,.pdf,.docx,.pptx,.py,.ipynb,.mp4,.png,.jpg,.jpeg,.webp,.zip,.txt">
-<p class="small">Maximum 50 MB per file. Select a preview image and/or a project file. Uploads must match the file types allowed in your Supabase Storage bucket.</p>
-<button class="primary" type="submit" id="uploadBtn">Upload Project</button>
-</form>
+<input id="previewFile" type="file" accept="image/jpeg,image/png,image/webp">
 
-<div class="notice" id="status">Login to manage projects.</div>
+<label>Project File (optional)</label>
+<input id="projectFile" type="file">
+
+<p class="small">Maximum 50 MB per file. YouTube projects do not need a separate video upload.</p>
+
+<button class="full" id="uploadBtn" onclick="uploadProject()">Upload Project</button>
+
+<div id="uploadMessage" class="message hidden"></div>
+
+<hr style="margin:30px 0;border:0;border-top:1px solid #ddd">
+
 <h2>Manage Existing Projects</h2>
-<label>Filter by Category</label>
-<select id="filterCategory">
-<option value="ALL">All Categories</option><option>AI Development</option>
-<option>Excel &amp; Google Sheets</option><option>Data Entry &amp; Management</option>
-<option>Graphic Design</option><option>Video Editing</option><option>Office Productivity</option>
-</select>
-<div id="projectCount" class="small"></div><div id="projectList"></div>
+<button class="secondary" onclick="loadProjects()">Refresh Projects</button>
+<div id="projectList"></div>
+
 </section>
-</main>
+</div>
 
 <script>
 const SUPABASE_URL = "https://inaazsmabgptpjckugwn.supabase.co";
 const SUPABASE_KEY = "sb_publishable_yBaRrATND_tJx4JXsIPAyA__LggH--V";
-const BUCKET = "portfolio-projects";
+
 const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-const $ = id => document.getElementById(id);
-let projects = [];
+const BUCKET = "portfolio-projects";
 
-function status(message){$("status").textContent=message;}
-function safeText(value){return String(value||"");}
-function getYouTubeId(value){
-if(!value)return null;
-try{
-const url=new URL(value.trim());let id="";
-if(url.hostname==="youtu.be"||url.hostname==="www.youtu.be")id=url.pathname.split("/").filter(Boolean)[0]||"";
-else if(["youtube.com","www.youtube.com","m.youtube.com"].includes(url.hostname)){
-if(url.pathname==="/watch")id=url.searchParams.get("v")||"";
-else if(url.pathname.startsWith("/embed/")||url.pathname.startsWith("/shorts/"))id=url.pathname.split("/")[2]||"";
-}
-return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null;
-}catch(_){return null;}
-}
-$("youtubeUrl").addEventListener("input",()=>{
-const id=getYouTubeId($("youtubeUrl").value);
-if(id){$("youtubePreview").src="https://img.youtube.com/vi/"+id+"/hqdefault.jpg";$("youtubePreviewBox").classList.remove("hidden");}
-else{$("youtubePreview").removeAttribute("src");$("youtubePreviewBox").classList.add("hidden");}
-});
-
-function showAdmin(isLoggedIn){
-$("loginPanel").classList.toggle("hidden",isLoggedIn);
-$("adminPanel").classList.toggle("hidden",!isLoggedIn);
-if(isLoggedIn)loadProjects();
-}
-async function checkSession(){
-const {data,error}=await db.auth.getSession();
-if(error)status(error.message);
-showAdmin(!!data.session);
-}
-$("loginForm").addEventListener("submit",async event=>{
-event.preventDefault();status("Logging in...");
-const {error}=await db.auth.signInWithPassword({email:$("email").value.trim(),password:$("password").value});
-if(error){status("Login failed: "+error.message);return;}
-status("Login successful.");showAdmin(true);
-});
-$("logoutBtn").addEventListener("click",async()=>{
-const {error}=await db.auth.signOut();
-if(error)status("Logout failed: "+error.message);
-showAdmin(false);status(error?error.message:"Logged out.");
-});
-db.auth.onAuthStateChange((_event,session)=>showAdmin(!!session));
-
-function safeFileName(name){
-return name.normalize("NFKD").replace(/[^\w.-]+/g,"_").replace(/^_+|_+$/g,"")||"file";
-}
-async function uploadFile(file,folder){
-if(!file)return null;
-if(file.size>50*1024*1024)throw new Error(file.name+" is larger than 50 MB.");
-const path=folder+"/"+Date.now()+"_"+Math.random().toString(36).slice(2,9)+"_"+safeFileName(file.name);
-const {error}=await db.storage.from(BUCKET).upload(path,file,{upsert:false,contentType:file.type||"application/octet-stream"});
-if(error)throw error;
-const {data}=db.storage.from(BUCKET).getPublicUrl(path);
-return {url:data.publicUrl,path,name:file.name};
-}
-function filePathFromUrl(url){
-if(!url)return null;
-try{
-const parsed=new URL(url);const marker="/storage/v1/object/public/"+BUCKET+"/";
-const index=parsed.pathname.indexOf(marker);
-if(index===-1)return null;
-return decodeURIComponent(parsed.pathname.slice(index+marker.length));
-}catch(_){return null;}
-}
-async function deleteStoredFile(url){
-const path=filePathFromUrl(url);if(!path)return;
-const {error}=await db.storage.from(BUCKET).remove([path]);if(error)throw error;
+function showMessage(id,message){
+ const el=document.getElementById(id);
+ el.textContent=message;
+ el.classList.remove("hidden");
 }
 
-$("uploadForm").addEventListener("submit",async event=>{
-event.preventDefault();
-const title=$("title").value.trim();
-const category=$("category").value;
-const description=$("description").value.trim();
-const preview=$("preview").files[0];
-const projectFile=$("projectFile").files[0];
-const youtubeInput=$("youtubeUrl").value.trim();
-const youtubeId=getYouTubeId(youtubeInput);
-if(youtubeInput&&!youtubeId){status("Invalid YouTube link. Paste a valid YouTube video URL.");return;}
-if(!preview&&!projectFile&&!youtubeId){status("Choose a preview image, project file, or YouTube video link.");return;}
-$("uploadBtn").disabled=true;status("Uploading files... Please wait.");
-let uploadedPreview=null,uploadedProject=null;
-try{
-if(preview)uploadedPreview=await uploadFile(preview,"previews");
-if(projectFile)uploadedProject=await uploadFile(projectFile,"projects");
-const ext=projectFile?projectFile.name.split(".").pop().toLowerCase():"";
-const record={
-title,category,description,
-file_url:uploadedPreview?uploadedPreview.url:null,
-workbook_url:ext==="xlsx"&&uploadedProject?uploadedProject.url:null,
-project_file_url:uploadedProject?uploadedProject.url:null,
-project_file_name:uploadedProject?uploadedProject.name:null,
-youtube_url:youtubeId?"https://www.youtube.com/watch?v="+youtubeId:null
-};
-const {error}=await db.from("projects").insert(record);
-if(error)throw error;
-status("Project uploaded successfully!");
-$("uploadForm").reset();$("youtubePreview").removeAttribute("src");$("youtubePreviewBox").classList.add("hidden");
-await loadProjects();
-}catch(error){
-status("Upload failed: "+(error.message||String(error))+"\nIf a file was uploaded before the error, it may remain in Storage.");
-}finally{$("uploadBtn").disabled=false;}
-});
+function getYoutubeId(url){
+ try{
+  const u=new URL(url);
+  if(u.hostname==="youtu.be") return u.pathname.slice(1).split("/")[0];
+  if(u.hostname.includes("youtube.com")){
+   if(u.pathname==="/watch") return u.searchParams.get("v");
+   const parts=u.pathname.split("/");
+   if(["embed","shorts","live"].includes(parts[1])) return parts[2];
+  }
+ }catch(e){}
+ return null;
+}
 
-$("filterCategory").addEventListener("change",renderProjects);
+function previewYoutube(){
+ const url=document.getElementById("youtube").value.trim();
+ const id=getYoutubeId(url);
+ const box=document.getElementById("youtubePreview");
+
+ box.innerHTML=id
+ ? `<img src="https://img.youtube.com/vi/${id}/hqdefault.jpg" style="width:100%;max-width:360px;border-radius:9px">`
+ : "";
+}
+
+async function login(){
+ const btn=document.getElementById("loginBtn");
+ btn.disabled=true;
+ document.getElementById("loginMessage").classList.add("hidden");
+
+ const {data,error}=await db.auth.signInWithPassword({
+  email:document.getElementById("email").value.trim(),
+  password:document.getElementById("password").value
+ });
+
+ btn.disabled=false;
+
+ if(error){
+  showMessage("loginMessage","Login failed: "+error.message);
+  return;
+ }
+
+ showAdmin();
+}
+
+async function logout(){
+ await db.auth.signOut();
+ document.getElementById("adminSection").classList.add("hidden");
+ document.getElementById("loginSection").classList.remove("hidden");
+}
+
+function showAdmin(){
+ document.getElementById("loginSection").classList.add("hidden");
+ document.getElementById("adminSection").classList.remove("hidden");
+ loadProjects();
+}
+
+async function uploadToStorage(file){
+ const ext=file.name.split(".").pop();
+ const path=Date.now()+"_"+Math.random().toString(36).slice(2)+"."+ext;
+
+ const {error}=await db.storage.from(BUCKET).upload(path,file,{
+  upsert:false
+ });
+
+ if(error) throw error;
+
+ const {data}=db.storage.from(BUCKET).getPublicUrl(path);
+ return {url:data.publicUrl,path:path};
+}
+
+async function uploadProject(){
+ const btn=document.getElementById("uploadBtn");
+ const message=document.getElementById("uploadMessage");
+
+ message.classList.add("hidden");
+
+ const title=document.getElementById("title").value.trim();
+ const category=document.getElementById("category").value;
+ const description=document.getElementById("description").value.trim();
+ const youtubeUrl=document.getElementById("youtube").value.trim();
+ const youtubeId=youtubeUrl ? getYoutubeId(youtubeUrl) : null;
+
+ const previewFile=document.getElementById("previewFile").files[0];
+ const projectFile=document.getElementById("projectFile").files[0];
+
+ if(!title || !category){
+  showMessage("uploadMessage","Please enter project title and category.");
+  return;
+ }
+
+ if(youtubeUrl && !youtubeId){
+  showMessage("uploadMessage","Please enter a valid YouTube link.");
+  return;
+ }
+
+ if(!youtubeUrl && !previewFile && !projectFile){
+  showMessage("uploadMessage","Add a YouTube link, preview image, or project file.");
+  return;
+ }
+
+ for(const f of [previewFile,projectFile]){
+  if(f && f.size>50*1024*1024){
+   showMessage("uploadMessage","File size must be 50 MB or less.");
+   return;
+  }
+ }
+
+ btn.disabled=true;
+ btn.textContent="Uploading...";
+
+ try{
+  let previewUrl=null;
+  let projectUrl=null;
+  let projectPath=null;
+  let previewPath=null;
+
+  if(previewFile){
+   const result=await uploadToStorage(previewFile);
+   previewUrl=result.url;
+   previewPath=result.path;
+  }
+
+  if(projectFile){
+   const result=await uploadToStorage(projectFile);
+   projectUrl=result.url;
+   projectPath=result.path;
+  }
+
+  const youtubeThumbnail=youtubeId
+   ? "https://img.youtube.com/vi/"+youtubeId+"/hqdefault.jpg"
+   : null;
+
+  // file_url must never be NULL
+  const finalFileUrl=previewUrl || youtubeThumbnail || projectUrl;
+
+  if(!finalFileUrl){
+   throw new Error("A preview image, YouTube link, or project file is required.");
+  }
+
+  const record={
+   title:title,
+   category:category,
+   description:description,
+   file_url:finalFileUrl,
+   workbook_url:projectUrl,
+   project_file_url:projectUrl,
+   project_file_name:projectFile ? projectFile.name : null,
+   youtube_url:youtubeUrl || null
+  };
+
+  const {error}=await db.from("projects").insert([record]);
+
+  if(error) throw error;
+
+  showMessage("uploadMessage","Project uploaded successfully!");
+
+  document.getElementById("title").value="";
+  document.getElementById("category").value="";
+  document.getElementById("description").value="";
+  document.getElementById("youtube").value="";
+  document.getElementById("previewFile").value="";
+  document.getElementById("projectFile").value="";
+  document.getElementById("youtubePreview").innerHTML="";
+
+  loadProjects();
+
+ }catch(error){
+  showMessage("uploadMessage","Upload failed: "+error.message);
+ }finally{
+  btn.disabled=false;
+  btn.textContent="Upload Project";
+ }
+}
+
 async function loadProjects(){
-$("projectList").innerHTML="";$("projectCount").textContent="Loading projects...";
-const {data,error}=await db.from("projects")
-.select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,youtube_url,created_at")
-.order("created_at",{ascending:false});
-if(error){$("projectCount").textContent="";status("Could not load projects: "+error.message);return;}
-projects=data||[];renderProjects();
+ const list=document.getElementById("projectList");
+ list.innerHTML="Loading projects...";
+
+ const {data,error}=await db
+  .from("projects")
+  .select("*")
+  .order("created_at",{ascending:false});
+
+ if(error){
+  list.textContent="Error: "+error.message;
+  return;
+ }
+
+ list.innerHTML="";
+
+ if(!data || data.length===0){
+  list.textContent="No projects found.";
+  return;
+ }
+
+ data.forEach(project=>{
+  const div=document.createElement("div");
+  div.className="card";
+
+  const heading=document.createElement("h3");
+  heading.textContent=project.title;
+
+  const category=document.createElement("p");
+  category.textContent=project.category;
+
+  const description=document.createElement("p");
+  description.textContent=project.description || "";
+
+  div.append(heading,category,description);
+
+  if(project.file_url){
+   const img=document.createElement("img");
+   img.src=project.file_url;
+   img.alt=project.title;
+   div.appendChild(img);
+  }
+
+  if(project.youtube_url){
+   const link=document.createElement("p");
+   link.textContent="YouTube video linked";
+   div.appendChild(link);
+  }
+
+  const deleteBtn=document.createElement("button");
+  deleteBtn.className="danger";
+  deleteBtn.textContent="Delete Project";
+  deleteBtn.onclick=()=>deleteProject(project.id);
+
+  div.appendChild(deleteBtn);
+  list.appendChild(div);
+ });
 }
-function renderProjects(){
-const filter=$("filterCategory").value;
-const shown=filter==="ALL"?projects:projects.filter(p=>p.category===filter);
-$("projectCount").textContent=shown.length+" project(s)";$("projectList").innerHTML="";
-if(!shown.length){$("projectList").innerHTML="<p>No projects in this category.</p>";return;}
-shown.forEach(project=>{
-const card=document.createElement("div");card.className="project";
-const title=document.createElement("div");title.className="project-title";title.textContent=project.title||"Untitled project";
-const meta=document.createElement("div");meta.className="meta";
-meta.textContent=(project.category||"Uncategorized")+(project.created_at?" • "+new Date(project.created_at).toLocaleDateString():"");
-const desc=document.createElement("p");desc.textContent=project.description||"";
-card.append(title,meta,desc);
-const links=[];
-if(project.file_url)links.push(["Preview image",project.file_url]);
-if(project.youtube_url)links.push(["YouTube video",project.youtube_url]);
-if(project.project_file_url)links.push([project.project_file_name||"Project file",project.project_file_url]);
-else if(project.workbook_url)links.push(["Excel workbook",project.workbook_url]);
-links.forEach(([label,url])=>{
-const a=document.createElement("a");a.href=url;a.target="_blank";a.rel="noopener noreferrer";
-a.textContent="Open "+label;a.style.marginRight="14px";card.appendChild(a);
+
+async function deleteProject(id){
+ if(!confirm("Are you sure you want to delete this project?")) return;
+
+ const {error}=await db.from("projects").delete().eq("id",id);
+
+ if(error){
+  alert("Delete failed: "+error.message);
+  return;
+ }
+
+ alert("Project deleted.");
+ loadProjects();
+}
+
+db.auth.getSession().then(({data})=>{
+ if(data.session) showAdmin();
 });
-const actions=document.createElement("div");actions.className="actions";
-const del=document.createElement("button");del.className="danger";del.textContent="Delete Project";
-del.addEventListener("click",()=>deleteProject(project));actions.appendChild(del);card.appendChild(actions);
-$("projectList").appendChild(card);
-});
-}
-async function deleteProject(project){
-const name=project.title||"this project";
-if(!confirm('Delete "'+name+'"?\nThe project record and linked files will be deleted.'))return;
-status("Deleting project...");
-const {data:sessionData}=await db.auth.getSession();
-if(!sessionData.session){status("Your session expired. Please log in again.");showAdmin(false);return;}
-try{
-const {error:rowError}=await db.from("projects").delete().eq("id",project.id);
-if(rowError)throw rowError;
-const urls=[...new Set([project.file_url,project.workbook_url,project.project_file_url].filter(Boolean))];
-const results=await Promise.allSettled(urls.map(deleteStoredFile));
-const failed=results.filter(r=>r.status==="rejected");
-await loadProjects();
-if(failed.length)status("Project record deleted, but one or more Storage files could not be deleted. Check Storage policies and bucket URLs.");
-else status("Project and linked Storage files deleted successfully.");
-}catch(error){status("Delete failed: "+(error.message||String(error)));}
-}
-checkSession();
 </script>
 </body>
 </html>
