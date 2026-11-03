@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,6 +25,7 @@ button:disabled{opacity:.5}
 .message{padding:12px;background:#eff6ff;border-radius:7px;margin-top:12px;overflow-wrap:anywhere}
 .hidden{display:none}
 .small{font-size:12px;color:#64748b;line-height:1.5}
+.profile-preview{width:150px;height:150px;border-radius:50%;object-fit:cover;border:4px solid #2864ed;background:#edf3fa;display:block;margin:15px 0}
 </style>
 </head>
 
@@ -48,6 +50,21 @@ button:disabled{opacity:.5}
 <section id="adminSection" class="hidden">
 
 <button class="secondary" onclick="logout()">Logout</button>
+
+<hr style="margin:25px 0;border:0;border-top:1px solid #ddd">
+
+<h2>Profile Photo Settings</h2>
+<p class="small">Upload or change your profile photo. It will automatically appear on your portfolio website.</p>
+
+<img id="currentProfilePhoto" class="profile-preview" src="" alt="Profile Photo Preview">
+
+<label>Select Profile Photo</label>
+<input id="profilePhotoFile" type="file" accept="image/jpeg,image/png,image/webp">
+
+<button class="full" id="profileUploadBtn" onclick="uploadProfilePhoto()">Upload / Change Profile Photo</button>
+<div id="profileMessage" class="message hidden"></div>
+
+<hr style="margin:30px 0;border:0;border-top:1px solid #ddd">
 
 <h2>Upload New Project</h2>
 
@@ -160,6 +177,7 @@ function showAdmin(){
  document.getElementById("loginSection").classList.add("hidden");
  document.getElementById("adminSection").classList.remove("hidden");
  loadProjects();
+ loadCurrentProfilePhoto();
 }
 
 async function uploadToStorage(file){
@@ -176,11 +194,106 @@ async function uploadToStorage(file){
  return {url:data.publicUrl,path:path};
 }
 
+/* PROFILE PHOTO SYSTEM */
+
+async function loadCurrentProfilePhoto(){
+ const img=document.getElementById("currentProfilePhoto");
+
+ const {data,error}=await db
+  .from("portfolio_settings")
+  .select("profile_photo_url")
+  .eq("id",1)
+  .maybeSingle();
+
+ if(error){
+  showMessage("profileMessage","Could not load profile photo: "+error.message);
+  return;
+ }
+
+ if(data && data.profile_photo_url){
+  img.src=data.profile_photo_url;
+ }else{
+  img.removeAttribute("src");
+  img.alt="No profile photo uploaded yet";
+ }
+}
+
+document.getElementById("profilePhotoFile").addEventListener("change",function(){
+ const file=this.files[0];
+ if(!file)return;
+
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+  showMessage("profileMessage","Please select a JPG, PNG or WEBP image.");
+  this.value="";
+  return;
+ }
+
+ if(file.size>50*1024*1024){
+  showMessage("profileMessage","Image must be 50 MB or less.");
+  this.value="";
+  return;
+ }
+
+ document.getElementById("currentProfilePhoto").src=URL.createObjectURL(file);
+ document.getElementById("profileMessage").classList.add("hidden");
+});
+
+async function uploadProfilePhoto(){
+ const btn=document.getElementById("profileUploadBtn");
+ const file=document.getElementById("profilePhotoFile").files[0];
+
+ document.getElementById("profileMessage").classList.add("hidden");
+
+ if(!file){
+  showMessage("profileMessage","Please select a profile photo first.");
+  return;
+ }
+
+ if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+  showMessage("profileMessage","Only JPG, PNG and WEBP images are allowed.");
+  return;
+ }
+
+ if(file.size>50*1024*1024){
+  showMessage("profileMessage","Image must be 50 MB or less.");
+  return;
+ }
+
+ btn.disabled=true;
+ btn.textContent="Uploading Photo...";
+
+ try{
+  const result=await uploadToStorage(file);
+
+  const {error}=await db
+   .from("portfolio_settings")
+   .upsert({
+    id:1,
+    profile_photo_url:result.url,
+    updated_at:new Date().toISOString()
+   },{onConflict:"id"});
+
+  if(error)throw error;
+
+  document.getElementById("currentProfilePhoto").src=result.url;
+  document.getElementById("profilePhotoFile").value="";
+
+  showMessage("profileMessage","Profile photo updated successfully! Refresh your portfolio website to see the new photo.");
+
+ }catch(error){
+  showMessage("profileMessage","Photo upload failed: "+error.message);
+ }finally{
+  btn.disabled=false;
+  btn.textContent="Upload / Change Profile Photo";
+ }
+}
+
+/* PROJECT UPLOAD SYSTEM */
+
 async function uploadProject(){
  const btn=document.getElementById("uploadBtn");
- const message=document.getElementById("uploadMessage");
 
- message.classList.add("hidden");
+ document.getElementById("uploadMessage").classList.add("hidden");
 
  const title=document.getElementById("title").value.trim();
  const category=document.getElementById("category").value;
@@ -219,26 +332,21 @@ async function uploadProject(){
  try{
   let previewUrl=null;
   let projectUrl=null;
-  let projectPath=null;
-  let previewPath=null;
 
   if(previewFile){
    const result=await uploadToStorage(previewFile);
    previewUrl=result.url;
-   previewPath=result.path;
   }
 
   if(projectFile){
    const result=await uploadToStorage(projectFile);
    projectUrl=result.url;
-   projectPath=result.path;
   }
 
   const youtubeThumbnail=youtubeId
    ? "https://img.youtube.com/vi/"+youtubeId+"/hqdefault.jpg"
    : null;
 
-  // file_url must never be NULL
   const finalFileUrl=previewUrl || youtubeThumbnail || projectUrl;
 
   if(!finalFileUrl){
