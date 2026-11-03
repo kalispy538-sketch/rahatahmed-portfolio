@@ -1,117 +1,169 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Rahat Ahmed's professional portfolio">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Rahat Ahmed | Portfolio</title>
+<meta name="description" content="Rahat Ahmed portfolio in AI development, Excel, Google Sheets, data management, graphic design and video editing.">
 <style>
-:root{--bg:#070b14;--panel:#101a2b;--text:#f4f7ff;--muted:#aebbd0;--blue:#4d8dff;--cyan:#65d6ff;--line:#263650}
-*{box-sizing:border-box;scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(ellipse at 75% 0%,#10234a 0,transparent 35%),var(--bg);color:var(--text);font-family:Segoe UI,Arial,sans-serif;line-height:1.6}
+:root{--bg:#070b14;--panel:#0d1424;--panel2:#101b30;--blue:#4d8dff;--cyan:#65d6ff;--text:#eef4ff;--muted:#9aabc5;--line:#1c2b45}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
 a{color:inherit;text-decoration:none}
-.wrap{width:min(1120px,92%);margin:auto}
-header{position:sticky;top:0;z-index:10;background:#070b14f2;border-bottom:1px solid var(--line)}
-nav{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0}
-.logo{font-weight:850;font-size:1.2rem}.logo span,h1 span{color:var(--cyan)}
-.navlinks{display:flex;gap:20px;color:var(--muted)}
-.btn{display:inline-block;padding:11px 17px;border-radius:10px;background:linear-gradient(135deg,var(--blue),#3264ed);color:white;font-weight:bold;border:1px solid #6aa1ff;cursor:pointer}
-.secondary{background:transparent;border-color:var(--line)}
-section{padding:65px 0}
-.hero{padding:85px 0 70px;display:grid;grid-template-columns:1.3fr .7fr;gap:35px;align-items:center}
-.eyebrow,.tag{display:inline-block;border:1px solid #31518b;background:#102044;color:#b9d4ff;padding:6px 11px;border-radius:99px;font-size:.85rem}
-h1{font-size:clamp(2.6rem,6vw,4.8rem);line-height:1.08;margin:20px 0}
-h2{font-size:clamp(1.8rem,3vw,2.5rem);margin:8px 0}
-.lead,.sub,.panel p,.hero-card p,.project p,.contact-box p{color:var(--muted)}
-.lead{font-size:1.08rem;max-width:650px}
+button{font:inherit}
+.wrap{width:min(1120px,calc(100% - 40px));margin:auto}
+header{position:sticky;top:0;z-index:10;background:#070b14eF;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.logo{font-size:24px;font-weight:900;letter-spacing:1px;color:var(--cyan)}
+.navlinks{display:flex;align-items:center;gap:25px;color:var(--muted);font-size:14px}
+.navlinks a:hover{color:var(--cyan)}
+.hire{background:var(--blue);color:white;padding:10px 17px;border-radius:8px;font-weight:bold}
+section{padding:88px 0;scroll-margin-top:75px}
+.hero{min-height:590px;display:flex;align-items:center;background:radial-gradient(ellipse at 80% 30%,#15336566,transparent 42%)}
+.kicker{color:var(--cyan);font-size:12px;font-weight:bold;letter-spacing:3px;text-transform:uppercase}
+h1{font-size:clamp(42px,7vw,76px);line-height:1.08;max-width:800px;margin:18px 0}
+h1 span{color:var(--cyan)}
+h2{font-size:clamp(30px,4vw,42px);line-height:1.2;margin:12px 0}
+.hero p,.sub{max-width:650px;color:var(--muted);font-size:17px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 19px;border-radius:8px;background:var(--blue);color:white;font-weight:bold;border:1px solid var(--blue)}
+.btn.outline{background:transparent;border-color:#344a6c;color:var(--text)}
+.about{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:30px}
+.panel{background:var(--panel);border:1px solid var(--line);padding:24px;border-radius:14px}
+.panel h3{margin:0 0 8px}.panel p{margin:0;color:var(--muted)}
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:30px}
+.skill{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;text-align:left;color:var(--text);cursor:pointer;transition:.2s}
+.skill:hover,.skill.active{border-color:var(--blue);transform:translateY(-3px);background:var(--panel2)}
+.symbol{font-size:28px}
+.skill h3{margin:12px 0 5px;font-size:18px}
+.skill p{margin:0;color:var(--muted);font-size:14px}
+.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:25px}
+.project{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;min-width:0}
+.project-art{height:190px;background:linear-gradient(135deg,#13294b,#0b1425);display:flex;align-items:center;justify-content:center;color:var(--cyan);font-size:34px;position:relative;overflow:hidden}
+.project-art img,.project-art video{width:100%;height:100%;object-fit:cover;display:block}
+.project-art iframe{width:100%;height:100%;border:0;display:block}
+.youtube-art{cursor:pointer}
+.youtube-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:62px;height:44px;border:0;border-radius:12px;background:#f00000;color:white;font-size:24px;cursor:pointer;box-shadow:0 4px 22px #0008}
+.project-body{padding:19px}
+.tag{display:inline-block;color:var(--cyan);background:#142947;padding:5px 9px;border-radius:20px;font-size:11px;font-weight:bold}
+.project h3{font-size:19px;margin:12px 0 6px;overflow-wrap:anywhere}
+.project p{color:var(--muted);font-size:14px;margin:0 0 14px;overflow-wrap:anywhere}
+.project-links{display:flex;flex-wrap:wrap;gap:10px}
+.project-links a{color:var(--cyan);font-size:13px;font-weight:bold}
+.project-links a:hover{text-decoration:underline}
+.filter-info,.note{color:var(--muted);font-size:14px}
+.contact-box{display:flex;justify-content:space-between;align-items:center;gap:25px;padding:35px;border-radius:18px;border:1px solid #25416a;background:linear-gradient(120deg,#101e35,#0c1424)}
+.contact-box p{color:var(--muted);max-width:550px}
 .actions{display:flex;gap:12px;flex-wrap:wrap}
-.hero-card,.panel{padding:24px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(145deg,#14223a,#0a1220)}
-.orb{width:100px;height:100px;border-radius:28px;display:grid;place-items:center;font-size:2.5rem;font-weight:bold;background:linear-gradient(135deg,#367bff,#5ed8ff);color:#07101d}
-.mini-skills{display:flex;gap:8px;flex-wrap:wrap}.mini-skills span{border:1px solid var(--line);border-radius:8px;padding:4px 8px;font-size:.8rem}
-.kicker{color:var(--cyan);font-size:.8rem;text-transform:uppercase;letter-spacing:2px;font-weight:bold}
-.about{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
-.skill{font:inherit;text-align:left;color:var(--text);padding:20px;border:1px solid var(--line);border-radius:15px;background:var(--panel);cursor:pointer}
-.skill:hover,.skill.active{border-color:var(--blue);background:#142440}
-.skill .symbol{font-size:1.5rem}.skill h3{margin:8px 0}.skill p{font-size:.9rem;color:var(--muted);margin:0}
-.project-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
-.project{overflow:hidden;background:var(--panel);border:1px solid var(--line);border-radius:16px;display:flex;flex-direction:column;min-width:0}
-.project-art{height:200px;display:grid;place-items:center;font-size:2.5rem;background:#111c30;overflow:hidden}
-.project-art img,.project-art video{width:100%;height:200px;object-fit:contain;background:#0c1422}
-.project-body{padding:18px;display:flex;flex-direction:column;align-items:flex-start;flex:1}
-.project h3{margin:12px 0 6px}.project p{font-size:.9rem;overflow-wrap:anywhere}
-.project-links{display:flex;gap:12px;flex-wrap:wrap;margin-top:auto;padding-top:12px}
-.project-links a{color:#82b1ff;font-weight:bold;font-size:.9rem}
-.filter-info,.note{color:var(--muted);font-size:.9rem}
-.contact-box{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:28px;background:#13294d;border:1px solid #2e4f83;border-radius:20px}
-footer{border-top:1px solid var(--line);padding:25px 0;color:var(--muted);text-align:center}
-@media(max-width:780px){.hero{grid-template-columns:1fr}.about{grid-template-columns:1fr}.skills,.project-grid{grid-template-columns:repeat(2,1fr)}.navlinks{gap:10px}.navlinks .contact-nav{display:none}}
-@media(max-width:520px){.skills,.project-grid{grid-template-columns:1fr}.contact-box{align-items:flex-start;flex-direction:column}.navlinks{font-size:.8rem;gap:8px}nav>.btn{font-size:.75rem;padding:8px}}
+footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:13px}
+@media(max-width:800px){
+.skills,.project-grid{grid-template-columns:repeat(2,1fr)}
+.navlinks{gap:12px}
+}
+@media(max-width:560px){
+.wrap{width:min(100% - 28px,1120px)}
+nav{flex-wrap:wrap;padding:12px 0}
+.navlinks{order:3;width:100%;justify-content:space-between;font-size:12px}
+.hero{min-height:520px}
+section{padding:65px 0}
+.skills,.project-grid,.about{grid-template-columns:1fr}
+.contact-box{align-items:flex-start;flex-direction:column;padding:24px}
+}
 </style>
 </head>
 <body>
-<header><div class="wrap"><nav>
-<a class="logo" href="#home">RAHAT<span>.</span></a>
-<div class="navlinks"><a href="#home">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a class="contact-nav" href="#contact">Contact</a></div>
-<a class="btn" href="#projects">View My Work ↗</a>
-</nav></div></header>
 
-<main><div class="wrap">
-<section class="hero" id="home">
-<div>
-<div class="eyebrow">● Open to opportunities · Always learning</div>
-<h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
-<p class="lead">I’m developing practical skills in AI development, Excel, Google Sheets, data management, graphic design and video editing. I enjoy turning ideas into useful, polished work.</p>
-<div class="actions"><a class="btn" href="#projects">Explore My Projects →</a><a class="btn secondary" href="#contact">Contact Me</a></div>
+<header>
+<div class="wrap">
+<nav>
+<a class="logo" href="#home">RAHAT.</a>
+<div class="navlinks">
+<a href="#home">Home</a>
+<a href="#about">About</a>
+<a href="#skills">Skills</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
 </div>
-<aside class="hero-card"><div class="orb">RA</div><h3>Creative mind. Practical skills.</h3><p>Technology, data and design—brought together in one portfolio.</p><div class="mini-skills"><span>AI Development</span><span>Excel</span><span>Google Sheets</span><span>Design</span><span>Video</span></div></aside>
+<a class="hire" href="mailto:rahatahmed11001@gmail.com">Hire Me</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section class="hero" id="home">
+<div class="wrap">
+<div class="kicker">AI Developer · Creative Professional</div>
+<h1>Hi, I'm <span>Rahat Ahmed.</span><br>I build. I create.</h1>
+<p>I work with AI development, Excel, Google Sheets, data management, graphic design and video editing. I enjoy learning new technologies and building practical projects.</p>
+<div class="hero-actions">
+<a class="btn" href="#projects">Explore My Work</a>
+<a class="btn outline" href="#contact">Contact Me</a>
+</div>
+</div>
 </section>
 
-<section id="about"><div class="kicker">A little about me</div><h2>Learning, building, improving.</h2><p class="sub">I’m a motivated learner who enjoys technology, creative work and continuously improving my skills.</p><div class="about"><div class="panel"><h3>My approach</h3><p>I focus on practical learning, clear presentation and making each project better than the last.</p></div><div class="panel"><h3>What I’m working toward</h3><p>Building a strong body of work across data, automation, digital design and creative media.</p></div></div></section>
+<section id="about">
+<div class="wrap">
+<div class="kicker">Who I Am</div>
+<h2>About Me</h2>
+<p class="sub">I'm a motivated and self-driven individual interested in technology, creativity and practical problem-solving. I enjoy continuously improving my skills.</p>
+<div class="about">
+<div class="panel">
+<h3>My approach</h3>
+<p>I focus on practical learning, clear presentation and making each project better than the last.</p>
+</div>
+<div class="panel">
+<h3>What I’m working toward</h3>
+<p>Building a strong body of work across data, automation, digital design and creative media.</p>
+</div>
+</div>
+</div>
+</section>
 
-<section id="skills"><div class="kicker">Explore my work</div><h2>Skills &amp; Services</h2><p class="sub">Click any category to see its projects below.</p><div class="skills">
+<section id="skills">
+<div class="wrap">
+<div class="kicker">Explore my work</div>
+<h2>Skills &amp; Services</h2>
+<p class="sub">Click any category to see its projects below.</p>
+<div class="skills">
 <button class="skill" data-category="AI Development"><div class="symbol">🤖</div><h3>AI Development</h3><p>Python experiments, AI tools and automation projects.</p></button>
 <button class="skill" data-category="Excel & Google Sheets"><div class="symbol">📊</div><h3>Excel &amp; Google Sheets</h3><p>Spreadsheets, dashboards, formulas and data cleaning.</p></button>
 <button class="skill" data-category="Data Entry & Management"><div class="symbol">🗂️</div><h3>Data Entry &amp; Management</h3><p>Organized records, accurate entry and clean datasets.</p></button>
 <button class="skill" data-category="Graphic Design"><div class="symbol">🎨</div><h3>Graphic Design</h3><p>Logos, banners, posters and visual content.</p></button>
 <button class="skill" data-category="Video Editing"><div class="symbol">🎬</div><h3>Video Editing</h3><p>Editing and preparing engaging video content.</p></button>
 <button class="skill" data-category="Office Productivity"><div class="symbol">📝</div><h3>Office Productivity</h3><p>MS Word, PowerPoint and professional documents.</p></button>
-</div></section>
+</div>
+</div>
+</section>
 
-<section id="projects"><div class="kicker">My portfolio</div><h2 id="projects-title">All My Projects</h2><p class="sub">Choose a category above. Open a project or its actual file below.</p><p class="filter-info" id="filter-info">Loading projects...</p><div class="project-grid" id="project-grid"></div><p class="note" id="project-status">Loading my projects...</p></section>
-
+<section id="projects">
+<div class="wrap">
+<div class="kicker">My portfolio</div>
+<h2 id="projects-title">All My Projects</h2>
+<p class="sub">Choose a category above. Open a project or its actual file below.</p>
+<p class="filter-info" id="filter-info">Loading projects...</p>
+<div class="project-grid" id="project-grid"></div>
+<p class="note" id="project-status">Loading my projects...</p>
+</div>
+</section>
 
 <section id="contact">
-  <div class="contact-box">
-    <div>
-      <div class="kicker">LET’S CONNECT</div>
-      <h2>Have a project in mind?</h2>
-      <p>
-        Contact me about job opportunities, collaborations,
-        or my work samples.
-      </p>
-    </div>
-
-    <div class="actions">
-      <a
-        class="btn"
-        href="mailto:rahatahmed11001@gmail.com?subject=Portfolio%20Inquiry"
-      >
-        Email Me ✉
-      </a>
-
-      <a
-        class="btn"
-        href="https://wa.me/8801849612042?text=Hello%2C%20I%20visited%20your%20portfolio%20website%20and%20would%20like%20to%20contact%20you."
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        WhatsApp ☎
-      </a>
-    </div>
-  </div>
+<div class="wrap">
+<div class="contact-box">
+<div>
+<div class="kicker">LET’S CONNECT</div>
+<h2>Have a project in mind?</h2>
+<p>Contact me about job opportunities, collaborations, or my work samples.</p>
+</div>
+<div class="actions">
+<a class="btn" href="mailto:rahatahmed11001@gmail.com?subject=Portfolio%20Inquiry">Email Me ✉</a>
+<a class="btn" href="https://wa.me/8801849612042?text=Hello%2C%20I%20visited%20your%20portfolio%20website%20and%20would%20like%20to%20contact%20you." target="_blank" rel="noopener noreferrer">WhatsApp ☎</a>
+</div>
+</div>
+</div>
 </section>
+</main>
 
 <footer><div class="wrap">© <span id="year"></span> Rahat Ahmed · Portfolio</div></footer>
 
@@ -153,10 +205,26 @@ a.textContent=label;
 return a;
 }
 
+function getYouTubeId(value){
+if(!value)return null;
+try{
+const url=new URL(value);
+let id="";
+if(url.hostname==="youtu.be")id=url.pathname.split("/").filter(Boolean)[0]||"";
+else if(["youtube.com","www.youtube.com","m.youtube.com"].includes(url.hostname)){
+if(url.pathname==="/watch")id=url.searchParams.get("v")||"";
+else if(url.pathname.startsWith("/embed/")||url.pathname.startsWith("/shorts/"))id=url.pathname.split("/")[2]||"";
+}
+return /^[A-Za-z0-9_-]{11}$/.test(id)?id:null;
+}catch(_){return null;}
+}
+
 function createCard(p){
 const previewUrl=String(p.file_url||"").trim();
 const workbookUrl=String(p.workbook_url||"").trim();
 const projectFileUrl=String(p.project_file_url||"").trim();
+const youtubeUrl=String(p.youtube_url||"").trim();
+const youtubeId=getYouTubeId(youtubeUrl);
 const actualFileUrl=projectFileUrl||workbookUrl||"";
 
 const card=document.createElement("article");
@@ -181,7 +249,29 @@ desc.textContent=p.description||"Portfolio project.";
 
 const clean=previewUrl.split("?")[0].split("#")[0].toLowerCase();
 
-if(/\.(jpg|jpeg|png|webp|gif|avif)$/.test(clean)){
+if(youtubeId){
+art.classList.add("youtube-art");
+const thumb=document.createElement("img");
+thumb.src="https://img.youtube.com/vi/"+youtubeId+"/hqdefault.jpg";
+thumb.alt=(p.title||"YouTube video")+" thumbnail";
+thumb.loading="lazy";
+thumb.onerror=()=>{thumb.src="https://img.youtube.com/vi/"+youtubeId+"/mqdefault.jpg";};
+const play=document.createElement("button");
+play.type="button";
+play.className="youtube-play";
+play.setAttribute("aria-label","Play YouTube video");
+play.textContent="▶";
+art.append(thumb,play);
+const playVideo=()=>{
+const frame=document.createElement("iframe");
+frame.src="https://www.youtube-nocookie.com/embed/"+youtubeId+"?autoplay=1&rel=0";
+frame.title=(p.title||"YouTube video");
+frame.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+frame.allowFullscreen=true;
+art.replaceChildren(frame);
+};
+art.addEventListener("click",playVideo,{once:true});
+}else if(/\.(jpg|jpeg|png|webp|gif|avif)$/.test(clean)){
 const img=document.createElement("img");
 img.src=previewUrl;
 img.alt=(p.title||"Project")+" preview";
@@ -277,7 +367,7 @@ const client=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 
 const {data,error}=await client
 .from("projects")
-.select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,created_at")
+.select("id,title,category,description,file_url,workbook_url,project_file_url,project_file_name,youtube_url,created_at")
 .order("created_at",{ascending:false});
 
 if(error){
